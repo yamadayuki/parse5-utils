@@ -1,5 +1,5 @@
 {
-  "name": "@yamadayuki/parse5-is",
+  "name": "@yamadayuki/parse5-visitor",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
