@@ -14,6 +14,7 @@
   "devDependencies": {
     "@types/node": "^10.12.18",
     "@types/parse5": "^5.0.0",
+    "parse5": "^5.1.0",
     "typescript": "^3.2.2"
   },
   "dependencies": {
