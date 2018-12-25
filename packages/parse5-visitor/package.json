@@ -22,6 +22,6 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@yamadayuki/parse5-is": "/Users/yamadayuki/dev/src/github.com/yamadayuki/parse5/packages/parse5-is"
+    "@yamadayuki/parse5-is": "^0.0.0"
   }
 }
