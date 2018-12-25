@@ -2,7 +2,8 @@
   "name": "@yamadayuki/parse5-visitor",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "build:watch": "tsc -p . -w"
@@ -14,5 +15,8 @@
     "@types/node": "^10.12.18",
     "@types/parse5": "^5.0.0",
     "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@yamadayuki/parse5-is": "/Users/yamadayuki/dev/src/github.com/yamadayuki/parse5/packages/parse5-is"
   }
 }

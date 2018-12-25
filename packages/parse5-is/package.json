@@ -2,7 +2,8 @@
   "name": "@yamadayuki/parse5-is",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "build:watch": "tsc -p . -w"

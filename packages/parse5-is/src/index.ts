@@ -6,9 +6,10 @@ import {
   DefaultTreeElement,
   DefaultTreeNode,
   DefaultTreeTextNode,
+  DefaultTreeParentNode,
 } from "parse5";
 
-export function isNode(node: DefaultTreeNode): node is DefaultTreeNode {
+export function isElement(node: DefaultTreeNode): node is DefaultTreeElement {
   return node.nodeName !== undefined && node.nodeName !== null;
 }
 
@@ -42,4 +43,20 @@ export function hasSourceCodeLocation(
   node: DefaultTreeElement | DefaultTreeTextNode
 ): node is Required<typeof node> {
   return node.sourceCodeLocation !== undefined;
+}
+
+export function hasParentNode(
+  node: DefaultTreeNode
+): node is DefaultTreeNode & { parentNode: DefaultTreeParentNode } {
+  return !(
+    isDocument(node) ||
+    isDocumentFragment(node) ||
+    isDocumentType(node)
+  );
+}
+
+export function hasChildNodes(
+  node: DefaultTreeNode
+): node is DefaultTreeNode & DefaultTreeParentNode {
+  return isDocument(node) || isDocumentFragment(node) || isElement(node);
 }
