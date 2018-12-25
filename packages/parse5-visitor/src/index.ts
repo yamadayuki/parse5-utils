@@ -1,3 +1,4 @@
+import { hasChildNodes, isElement } from "@yamadayuki/parse5-is";
 import {
   DefaultTreeCommentNode,
   DefaultTreeDocument,
@@ -5,13 +6,11 @@ import {
   DefaultTreeDocumentType,
   DefaultTreeElement,
   DefaultTreeNode,
-  DefaultTreeTextNode,
   DefaultTreeParentNode,
+  DefaultTreeTextNode,
 } from "parse5";
 
-import { isElement, hasChildNodes } from "@yamadayuki/parse5-is";
-
-type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
+export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
 
 interface Visitor {
   Element?: VisitorFunction<DefaultTreeElement>;

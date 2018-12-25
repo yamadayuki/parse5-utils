@@ -16,7 +16,7 @@
     "noUnusedLocals": false,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2017", "dom"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
       "*": ["types/*"]
