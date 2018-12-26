@@ -8,17 +8,40 @@ import {
   isTextNode,
 } from "@yamadayuki/parse5-is";
 import {
-  Visitor,
-  VisitorFunction,
-  validateVisitorMethods,
-} from "@yamadayuki/parse5-visitor";
-import { DefaultTreeNode, DefaultTreeParentNode } from "parse5";
+  DefaultTreeCommentNode,
+  DefaultTreeDocument,
+  DefaultTreeDocumentFragment,
+  DefaultTreeDocumentType,
+  DefaultTreeElement,
+  DefaultTreeNode,
+  DefaultTreeParentNode,
+  DefaultTreeTextNode,
+} from "parse5";
 
-function applyVisitor<T extends DefaultTreeNode>(
+export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
+
+export type Visitor = {
+  Element?: VisitorFunction<DefaultTreeElement>;
+  Document?: VisitorFunction<DefaultTreeDocument>;
+  TextNode?: VisitorFunction<DefaultTreeTextNode>;
+  CommentNode?: VisitorFunction<DefaultTreeCommentNode>;
+  DocumentFragment?: VisitorFunction<DefaultTreeDocumentFragment>;
+  DocumentType?: VisitorFunction<DefaultTreeDocumentType>;
+};
+
+export function validateVisitorMethods(visitor: Visitor): void {
+  for (const fn of Object.values(visitor)) {
+    if (typeof fn !== "function") {
+      throw new TypeError(`Non-function found with type ${typeof fn}`);
+    }
+  }
+}
+
+export function applyVisitor<T extends DefaultTreeNode>(
   node: T,
   visitor: VisitorFunction<T>,
   parent?: DefaultTreeParentNode
-): DefaultTreeNode {
+): T {
   return visitor(node, parent);
 }
 

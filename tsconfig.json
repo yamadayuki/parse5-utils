@@ -6,6 +6,6 @@
   "include": [],
   "references": [
     { "path": "./packages/parse5-is" },
-    { "path": "./packages/parse5-visitor" }
+    { "path": "./packages/parse5-visit" }
   ]
 }

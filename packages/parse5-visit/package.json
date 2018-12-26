@@ -1,5 +1,5 @@
 {
-  "name": "@yamadayuki/parse5-traverse",
+  "name": "@yamadayuki/parse5-visit",
   "version": "0.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -22,7 +22,6 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@yamadayuki/parse5-is": "^0.0.0",
-    "@yamadayuki/parse5-visitor": "^0.0.0"
+    "@yamadayuki/parse5-is": "^0.0.0"
   }
 }
