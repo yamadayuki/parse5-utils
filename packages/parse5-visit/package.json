@@ -5,12 +5,21 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "prebuild": "npm run clean",
     "build": "tsc -p .",
     "build:watch": "tsc -p . -w",
-    "test": "jest -c ./jest.config.js"
+    "clean": "rm -rf lib",
+    "test": "jest -c ./jest.config.js",
+    "bump:major": "npm version major",
+    "bump:minor": "npm version minor",
+    "bump:patch": "npm version patch"
   },
   "keywords": [],
-  "author": "",
+  "author": "Yuki Yamada <yamadayuuki0818@gmail.com>",
+  "repository": "https://github.com/yamadayuki/parse5-utils/tree/master/packages/parse5-is",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^23.3.10",

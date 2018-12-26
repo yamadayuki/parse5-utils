@@ -1,14 +1,17 @@
 {
-  "name": "@yamadayuki/parse5",
-  "version": "0.0.0",
-  "description": "",
+  "name": "@yamadayuki/parse5-utils",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "test": "lerna run --parallel test",
-    "test:watch": "lerna exec --parallel -- npm run test -- --watch"
+    "test:watch": "lerna exec --parallel -- npm run test -- --watch",
+    "bump:major": "lerna run bump:major",
+    "bump:minor": "lerna run bump:minor",
+    "bump:patch": "lerna run bump:patch",
+    "release-packages": "lerna exec -- npm publish"
   },
   "keywords": [],
   "author": "",
