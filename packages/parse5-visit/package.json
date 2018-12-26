@@ -1,6 +1,6 @@
 {
   "name": "@yamadayuki/parse5-visit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "traverse the `parse5` AST node",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -31,6 +31,6 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@yamadayuki/parse5-is": "^0.0.0"
+    "@yamadayuki/parse5-is": "^0.0.1"
   }
 }
