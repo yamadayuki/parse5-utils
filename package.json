@@ -6,8 +6,9 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "build:watch": "lerna run build:watch",
-    "test": "lerna exec -- npm run test"
+    "build:watch": "lerna run --parallel build:watch",
+    "test": "lerna run --parallel test",
+    "test:watch": "lerna exec --parallel -- npm run test -- --watch"
   },
   "keywords": [],
   "author": "",

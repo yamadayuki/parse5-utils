@@ -3,7 +3,34 @@ import {
   DefaultTreeElement,
   parseFragment,
 } from "parse5";
-import { visitElement, VisitorFunction } from "../index";
+import {
+  validateVisitorMethods,
+  visitElement,
+  VisitorFunction,
+  validateVisitorMethod,
+} from "../index";
+
+describe("validateVisitorMethod", () => {
+  it("should throw no errors", () => {
+    const fn = jest.fn((node: any) => node);
+    expect(() => validateVisitorMethod(fn)).not.toThrow();
+  });
+
+  it("should throw an error", () => {
+    expect(() => validateVisitorMethod(2 as any)).toThrow();
+  });
+});
+
+describe("validateVisitorMethods", () => {
+  it("should throw no errors", () => {
+    const fn = jest.fn((node: any) => node);
+    expect(() => validateVisitorMethods({ Element: fn })).not.toThrow();
+  });
+
+  it("should throw an error", () => {
+    expect(() => validateVisitorMethods({ Element: 2 as any })).toThrow();
+  });
+});
 
 describe("visitElement", () => {
   const html = "<h1>My First Heading</h1>";

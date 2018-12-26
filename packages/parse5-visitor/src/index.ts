@@ -12,23 +12,23 @@ import {
 
 export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
 
-interface Visitor {
+export type Visitor = {
   Element?: VisitorFunction<DefaultTreeElement>;
   Document?: VisitorFunction<DefaultTreeDocument>;
   TextNode?: VisitorFunction<DefaultTreeTextNode>;
   CommentNode?: VisitorFunction<DefaultTreeCommentNode>;
   DocumentFragment?: VisitorFunction<DefaultTreeDocumentFragment>;
   DocumentType?: VisitorFunction<DefaultTreeDocumentType>;
-}
+};
 
-function validateVisitorMethod<T>(visitor: VisitorFunction<T>): void {
+export function validateVisitorMethod<T>(visitor: VisitorFunction<T>): void {
   if (typeof visitor !== "function") {
     throw new TypeError(`Non-function found with type ${typeof visitor}`);
   }
 }
 
-function validateVisitorMethods(visitor: Visitor): void {
-  for (const fn in visitor) {
+export function validateVisitorMethods(visitor: Visitor): void {
+  for (const fn of Object.values(visitor)) {
     if (typeof fn !== "function") {
       throw new TypeError(`Non-function found with type ${typeof fn}`);
     }

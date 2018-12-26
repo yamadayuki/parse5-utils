@@ -5,12 +5,16 @@ import {
   DefaultTreeDocumentType,
   DefaultTreeElement,
   DefaultTreeNode,
-  DefaultTreeTextNode,
   DefaultTreeParentNode,
+  DefaultTreeTextNode,
 } from "parse5";
 
-export function isElement(node: DefaultTreeNode): node is DefaultTreeElement {
-  return node.nodeName !== undefined && node.nodeName !== null;
+export interface DefaultTreeTag extends DefaultTreeNode {
+  tagName?: string;
+}
+
+export function isElement(node: DefaultTreeTag): node is DefaultTreeElement {
+  return node.tagName !== undefined && node.tagName !== null;
 }
 
 export function isDocument(node: DefaultTreeNode): node is DefaultTreeDocument {
