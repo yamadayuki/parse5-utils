@@ -1,7 +1,7 @@
 {
   "name": "@yamadayuki/parse5-visit",
   "version": "0.0.0",
-  "description": "",
+  "description": "traverse the `parse5` AST node",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
