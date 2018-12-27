@@ -4,6 +4,7 @@ import {
   DefaultTreeElement,
   parse,
   parseFragment,
+  DefaultTreeNode,
 } from "parse5";
 import {
   applyVisitor,
@@ -23,7 +24,7 @@ describe("validateVisitorMethods", () => {
   });
 });
 
-describe("visitElement", () => {
+describe("applyVisitor", () => {
   const html = "<h1>My First Heading</h1>";
 
   test("should apply the received function", () => {
@@ -45,10 +46,10 @@ describe("visitElement", () => {
 
   test("should throw error when the recieved visitor function is invalid", () => {
     const parsed = parseFragment(html) as DefaultTreeDocumentFragment; // #document-fragment
-    const h1 = parsed.childNodes[0] as DefaultTreeElement;
+    const h1 = parsed.childNodes[0];
 
     expect(() => {
-      applyVisitor(h1, (2 as any) as VisitorFunction<DefaultTreeElement>);
+      applyVisitor(h1, (2 as any) as VisitorFunction<DefaultTreeNode>);
     }).toThrow();
   });
 });
@@ -66,7 +67,7 @@ describe("traverse", () => {
     const visitor = jest.fn((node: DefaultTreeElement) => node);
 
     const parsed = parse(html);
-    traverse(parsed as DefaultTreeDocument, { Element: visitor });
+    traverse(parsed, { Element: visitor });
     /**
      * the visitor is called 5 times in this suite.
      * #document

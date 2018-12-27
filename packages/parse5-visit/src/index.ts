@@ -7,29 +7,32 @@ import {
   isElement,
   isTextNode,
 } from "@yamadayuki/parse5-is";
-import {
-  DefaultTreeCommentNode,
-  DefaultTreeDocument,
-  DefaultTreeDocumentFragment,
-  DefaultTreeDocumentType,
-  DefaultTreeElement,
-  DefaultTreeNode,
-  DefaultTreeParentNode,
-  DefaultTreeTextNode,
-} from "parse5";
+import { DefaultTreeNode, DefaultTreeParentNode } from "parse5";
 
 export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
 
-export type Visitor = {
-  Element?: VisitorFunction<DefaultTreeElement>;
-  Document?: VisitorFunction<DefaultTreeDocument>;
-  TextNode?: VisitorFunction<DefaultTreeTextNode>;
-  CommentNode?: VisitorFunction<DefaultTreeCommentNode>;
-  DocumentFragment?: VisitorFunction<DefaultTreeDocumentFragment>;
-  DocumentType?: VisitorFunction<DefaultTreeDocumentType>;
+export type Visitor<T> = {
+  Element?: VisitorFunction<T> extends VisitorFunction<infer R>
+    ? VisitorFunction<R>
+    : VisitorFunction<T>;
+  Document?: VisitorFunction<T> extends VisitorFunction<infer R>
+    ? VisitorFunction<R>
+    : VisitorFunction<T>;
+  TextNode?: VisitorFunction<T> extends VisitorFunction<infer R>
+    ? VisitorFunction<R>
+    : VisitorFunction<T>;
+  CommentNode?: VisitorFunction<T> extends VisitorFunction<infer R>
+    ? VisitorFunction<R>
+    : VisitorFunction<T>;
+  DocumentFragment?: VisitorFunction<T> extends VisitorFunction<infer R>
+    ? VisitorFunction<R>
+    : VisitorFunction<T>;
+  DocumentType?: VisitorFunction<T> extends VisitorFunction<infer R>
+    ? VisitorFunction<R>
+    : VisitorFunction<T>;
 };
 
-export function validateVisitorMethods(visitor: Visitor): void {
+export function validateVisitorMethods(visitor: Visitor<any>): void {
   for (const fn of Object.values(visitor)) {
     if (typeof fn !== "function") {
       throw new TypeError(`Non-function found with type ${typeof fn}`);
@@ -45,7 +48,10 @@ export function applyVisitor<T extends DefaultTreeNode>(
   return visitor(node, parent);
 }
 
-export function traverse(node: DefaultTreeNode, visitor: Visitor) {
+export function traverse<T extends DefaultTreeNode>(
+  node: T,
+  visitor: Visitor<T>
+) {
   validateVisitorMethods(visitor);
 
   if (visitor.Document && isDocument(node)) {
@@ -69,7 +75,7 @@ export function traverse(node: DefaultTreeNode, visitor: Visitor) {
 
   if (hasChildNodes(node) && node.childNodes.length > 0) {
     const newChildNodes = node.childNodes.map(childNode =>
-      traverse(childNode, visitor)
+      traverse(childNode, visitor as Visitor<typeof childNode>)
     );
     node.childNodes = newChildNodes;
   }
