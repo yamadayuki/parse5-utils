@@ -17,9 +17,15 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@yamadayuki/ogh-sample": "^0.0.2",
     "lerna": "^3.8.0"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "@yamadayuki/ogh-sample": {
+    "prettier": {
+      "pattern": "**/packages/**/*.{js,jsx,ts,tsx}"
+    }
+  }
 }

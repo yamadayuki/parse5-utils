@@ -1,9 +1,4 @@
-import {
-  parse,
-  DefaultTreeDocument,
-  DefaultTreeNode,
-  DefaultTreeElement,
-} from "parse5";
+import { parse, DefaultTreeDocument, DefaultTreeNode, DefaultTreeElement } from "parse5";
 import { isDocument } from "../index";
 
 describe("isDocument", () => {

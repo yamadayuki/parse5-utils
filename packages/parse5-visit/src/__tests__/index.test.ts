@@ -6,12 +6,7 @@ import {
   parseFragment,
   DefaultTreeNode,
 } from "parse5";
-import {
-  applyVisitor,
-  traverse,
-  validateVisitorMethods,
-  VisitorFunction,
-} from "../index";
+import { applyVisitor, traverse, validateVisitorMethods, VisitorFunction } from "../index";
 
 describe("validateVisitorMethods", () => {
   it("should throw no errors", () => {
