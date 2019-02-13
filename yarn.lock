@@ -819,19 +819,19 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.0.tgz#9ae2106efc443d7c1e26570aa8247828c9c80f11"
   integrity sha512-J5D3z703XTDIGQFYXsnU9uRCW9e9mMEFO0Kpe6kykyiboqziru/RlZ0hM2P+PKTG4NHG1SjLrqae/NrV2iJApQ==
 
-"@yamadayuki/ogh-core@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-core/-/ogh-core-0.0.2.tgz#4dea786e2e5c9cb1c7e43ebfc54451ec2a4418b4"
-  integrity sha512-Bpbi7bgV1Q7Ju2Yx2SSLUfcyDcjXG+3nGMJmcs+Opj3V3efxHDftphvX/okc1UWuIcBsmxD7wL1FNCoSJDIz7A==
+"@yamadayuki/ogh-core@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-core/-/ogh-core-0.0.4.tgz#48f7049fa2acc2791af051c6193fb3fe36ed7747"
+  integrity sha512-4BY+0vUqc7UKlLohnZBo/+mhIc/BdXmB7ddXcuE55ePfmIV7h0r3ohEWdTqwUqbdWRtyNILxeX9fqfKS9+nwWg==
   dependencies:
     cosmiconfig "^5.0.7"
 
-"@yamadayuki/ogh-sample@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-sample/-/ogh-sample-0.0.2.tgz#c3f99dba468f06178c7928e7c28a55dd047fbf93"
-  integrity sha512-99fcR6kzY+V/CdtXq1m3mOq6cGKCMNEVHVRDqGImwfTCxChMyph5urAqIPO1Ke89qAa+MmVOW7u01PycrK0WmQ==
+"@yamadayuki/ogh-sample@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-sample/-/ogh-sample-0.0.4.tgz#81482d0a30d0ffdd446739fdc26d1e5fa87845a6"
+  integrity sha512-hmMNogCPR3O2y0cBBGKp8sgMfYyIbGzs/RyNsMFAZwj3IpEQV8AUVUNPk1bofNQXUT2VXVh3ypK9p9ByWIwdww==
   dependencies:
-    "@yamadayuki/ogh-core" "^0.0.2"
+    "@yamadayuki/ogh-core" "^0.0.4"
     execa "^1.0.0"
     prettier "^1.16.4"
 
@@ -3390,18 +3390,10 @@ jest@^24.1.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.12.0:
+js-yaml@^3.12.0, js-yaml@^3.9.0:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.1.tgz#295c8632a18a23e054cf5c9d3cecafe678167600"
   integrity sha512-um46hB9wNOKlwkHgiuyEVAybXBjwFUV0Z/RaHJblRd9DXltue9FTYvzCr9ErQrK9Adz5MU4gHWVaNUfdmrC8qA==
-  dependencies:
-    argparse "^1.0.7"
-    esprima "^4.0.0"
-
-js-yaml@^3.9.0:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
-  integrity sha512-PIt2cnwmPfL4hKNwqeiuz4bKfnzHTBv6HyVgjahA6mPLwPDzjDWrplJBMjHUFxku/N3FlmrbyPclad+I+4mJ3A==
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"

@@ -17,7 +17,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@yamadayuki/ogh-sample": "^0.0.2",
+    "@yamadayuki/ogh-sample": "^0.0.4",
     "lerna": "^3.8.0"
   },
   "workspaces": [
