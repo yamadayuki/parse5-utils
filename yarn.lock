@@ -826,19 +826,19 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.0.tgz#9ae2106efc443d7c1e26570aa8247828c9c80f11"
   integrity sha512-J5D3z703XTDIGQFYXsnU9uRCW9e9mMEFO0Kpe6kykyiboqziru/RlZ0hM2P+PKTG4NHG1SjLrqae/NrV2iJApQ==
 
-"@yamadayuki/ogh-sample@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-sample/-/ogh-sample-0.0.5.tgz#f8df45eb4149239a22b8e48619a1af6483e42ccb"
-  integrity sha512-9AiZ4I5En7WVErytoyVePeE1My/atuMxsJlJZxtOjGwWbaAV/bagnsh2JFTsjnp8TORrNs2ftF+PIFlsq2ItJw==
+"@yamadayuki/ogh-sample@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-sample/-/ogh-sample-0.1.0.tgz#8c93ccedd9f957f05fc2ccaaec372ff92b04b335"
+  integrity sha512-YFbtR2zKtir/fTxPiUn6Aooa1WIelbCrv7eSNbEvun0oyUyEgqRZ5SfSBlu8v1R7/LtIH114AL3AA1cW/jKjRQ==
   dependencies:
-    "@yamadayuki/ogh" "^0.0.5"
+    "@yamadayuki/ogh" "^0.1.0"
     execa "^1.0.0"
     prettier "^1.16.4"
 
-"@yamadayuki/ogh@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh/-/ogh-0.0.5.tgz#44ba9e03713e97f140ba2ad5938d95e12705443a"
-  integrity sha512-OysOkZsQRs/msN3/oCnxWgecPT0JhdmHjeBrqttFDp73Qj+LJQ7MVCKifgcSDoLq6+1UbWclH87sc77DKMcZWQ==
+"@yamadayuki/ogh@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh/-/ogh-0.1.0.tgz#04702f74a781f8d90cc3b48b23dedde9dfdbd897"
+  integrity sha512-z5vViifXocUWjq+Y2nAPRye4y9QlrLfFYNzkOMjI6hYxgOdxzMe/Ccpzzd9zBW1NgwsXiUDZQD/6mufH+mD5gQ==
   dependencies:
     cosmiconfig "^5.0.7"
 
