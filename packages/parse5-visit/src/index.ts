@@ -7,7 +7,7 @@ import {
   isElement,
   isTextNode,
 } from "@yamadayuki/parse5-is";
-import { DefaultTreeNode, DefaultTreeParentNode, DefaultTreeDocument } from "parse5";
+import { DefaultTreeNode, DefaultTreeParentNode, DefaultTreeDocument, DefaultTreeElement } from "parse5";
 
 export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
 
@@ -46,18 +46,45 @@ export function visitDocument<T extends DefaultTreeDocument>(
     onLeave?: VisitorFunction<T>;
   }
 ) {
-  if (isDocument(node)) {
-    if (typeof onEnter === "function") {
-      onEnter(node);
-    }
+  if (isDocument(node) && typeof onEnter === "function") {
+    onEnter(node);
+  }
 
+  if (node.childNodes && node.childNodes.length > 0) {
     node.childNodes.forEach(childNode => {
       visitDocument(childNode as T, { onEnter, onLeave });
     });
+  }
 
-    if (typeof onLeave === "function") {
-      onLeave(node);
-    }
+  if (isDocument(node) && typeof onLeave === "function") {
+    onLeave(node);
+  }
+
+  return node;
+}
+
+export function visitElement<T extends DefaultTreeElement>(
+  node: T,
+  {
+    onEnter,
+    onLeave,
+  }: {
+    onEnter?: VisitorFunction<T>;
+    onLeave?: VisitorFunction<T>;
+  }
+) {
+  if (isElement(node) && typeof onEnter === "function") {
+    onEnter(node, node.parentNode);
+  }
+
+  if (node.childNodes && node.childNodes.length > 0) {
+    node.childNodes.forEach(childNode => {
+      visitElement(childNode as T, { onEnter, onLeave });
+    });
+  }
+
+  if (isElement(node) && typeof onLeave === "function") {
+    onLeave(node, node.parentNode);
   }
 
   return node;

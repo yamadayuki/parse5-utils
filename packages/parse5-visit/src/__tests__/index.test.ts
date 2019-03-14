@@ -6,7 +6,8 @@ import {
   parse,
   parseFragment,
 } from "parse5";
-import { applyVisitor, traverse, validateVisitorMethods, VisitorFunction, visitDocument } from "../index";
+import { applyVisitor, traverse, validateVisitorMethods, VisitorFunction, visitDocument, visitElement } from "../index";
+import { hasParentNode } from "@yamadayuki/parse5-is";
 
 describe("validateVisitorMethods", () => {
   it("should throw no errors", () => {
@@ -139,6 +140,63 @@ describe("visitDocument", () => {
     });
 
     visitDocument(parsed as DefaultTreeDocument, { onEnter, onLeave });
+    expect(affectedNodeName).toMatchSnapshot();
+  });
+});
+
+describe("visitElement", () => {
+  const html = `<!DOCTYPE html>
+  <html>
+  <body>
+    <h1>My First Heading</h1>
+    <p>My first paragraph.</p>
+  </body>
+  </html>`;
+  const parsed = parse(html);
+
+  it("doesn't throw", () => {
+    const visitor = jest.fn((node: DefaultTreeElement) => node);
+
+    expect(() => {
+      visitElement(parsed as DefaultTreeElement, { onEnter: visitor });
+    }).not.toThrow();
+  });
+
+  it("calls `onEnter` only once", () => {
+    const visitor = jest.fn((node: DefaultTreeElement) => node);
+
+    visitElement(parsed as DefaultTreeElement, { onEnter: visitor });
+    /**
+     * the visitor is called only one time in this suite.
+     * #document
+     *   html    <- call!
+     *     head  <- call!
+     *     body  <- call!
+     *       h1  <- call!
+     *       p   <- call!
+     */
+    expect(visitor).toHaveBeenCalledTimes(5);
+  });
+
+  it("matches snapshot", () => {
+    const affectedNodeName: string[] = [];
+    let depth = 0;
+    const onEnter = jest.fn((node: DefaultTreeElement) => {
+      if (hasParentNode(node)) {
+        depth = depth + 1;
+      }
+      affectedNodeName.push(`${"".padStart(depth * 2, " ")}-> ${node.nodeName}`);
+      return node;
+    });
+    const onLeave = jest.fn((node: DefaultTreeElement) => {
+      affectedNodeName.push(`${"".padStart(depth * 2, " ")}<- ${node.nodeName}`);
+      if (hasParentNode(node)) {
+        depth = depth - 1;
+      }
+      return node;
+    });
+
+    visitElement(parsed as DefaultTreeElement, { onEnter, onLeave });
     expect(affectedNodeName).toMatchSnapshot();
   });
 });
