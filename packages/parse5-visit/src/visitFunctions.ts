@@ -1,5 +1,5 @@
-import { isDocument, isDocumentFragment, isElement } from "@yamadayuki/parse5-is";
-import { DefaultTreeDocument, DefaultTreeDocumentFragment, DefaultTreeElement } from "parse5";
+import { isDocument, isDocumentFragment, isElement, isDocumentType } from "@yamadayuki/parse5-is";
+import { DefaultTreeDocument, DefaultTreeDocumentFragment, DefaultTreeElement, DefaultTreeDocumentType } from "parse5";
 import { VisitorFunction } from "./types";
 
 export function visitDocument<T extends DefaultTreeDocument>(
@@ -50,6 +50,29 @@ export function visitDocumentFragment<T extends DefaultTreeDocumentFragment>(
   }
 
   if (isDocumentFragment(node) && typeof onLeave === "function") {
+    onLeave(node);
+  }
+
+  return node;
+}
+
+export function visitDocumentType<T extends DefaultTreeDocumentType>(
+  node: T,
+  {
+    onEnter,
+    onLeave,
+  }: {
+    onEnter?: VisitorFunction<T>;
+    onLeave?: VisitorFunction<T>;
+  }
+) {
+  if (isDocumentType(node) && typeof onEnter === "function") {
+    onEnter(node);
+  }
+
+  // #documentType node has no childNodes
+
+  if (isDocumentType(node) && typeof onLeave === "function") {
     onLeave(node);
   }
 
