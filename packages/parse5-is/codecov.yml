@@ -8,4 +8,4 @@ coverage:
         flags: is
 
 fixes:
-  - "::packages/parse5-is"
+  - "::src/packages/parse5-is"
