@@ -1,5 +1,13 @@
-import { hasParentNode, hasChildNodes } from "@yamadayuki/parse5-is";
-import { parse, parseFragment, TreeAdapter, DefaultTreeParentNode, DefaultTreeTextNode } from "parse5";
+import { hasParentNode } from "@yamadayuki/parse5-is";
+import {
+  DefaultTreeCommentNode,
+  DefaultTreeElement,
+  DefaultTreeParentNode,
+  DefaultTreeTextNode,
+  parse,
+  parseFragment,
+  TreeAdapter,
+} from "parse5";
 // @ts-ignore for testing
 import * as defaultTreeAdapter from "parse5/lib/tree-adapters/default";
 import {
@@ -81,6 +89,18 @@ describe("visitDocument", () => {
 
     visitDocument(parsed, { onEnter, onLeave });
     expect(memo).toMatchSnapshot();
+  });
+
+  it("onEnter and onLeave are called with expected arguments", () => {
+    const documentNode = parsed as any;
+    documentNode.parentNode = (parsed as any).childNodes[0];
+    const parentNode = documentNode.parentNode;
+    const onEnter = jest.fn(node => node);
+    const onLeave = jest.fn(node => node);
+
+    visitDocument(documentNode, { onEnter, onLeave });
+    expect(onEnter).toHaveBeenCalledWith(documentNode, parentNode);
+    expect(onLeave).toHaveBeenCalledWith(documentNode, parentNode);
   });
 });
 
