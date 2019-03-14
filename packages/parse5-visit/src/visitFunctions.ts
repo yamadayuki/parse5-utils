@@ -7,7 +7,7 @@ import {
   isElement,
   isTextNode,
 } from "@yamadayuki/parse5-is";
-import { CommentNode, Document, DocumentFragment, DocumentType, Element, Node } from "parse5";
+import { CommentNode, Document, DocumentFragment, DocumentType, Element, Node, TextNode } from "parse5";
 import { VisitorFunction } from "./types";
 
 export function visitDocument(
@@ -155,8 +155,8 @@ export function visitTextNode(
     onEnter,
     onLeave,
   }: {
-    onEnter?: VisitorFunction<Node>;
-    onLeave?: VisitorFunction<Node>;
+    onEnter?: VisitorFunction<TextNode>;
+    onLeave?: VisitorFunction<TextNode>;
   }
 ) {
   if (isTextNode(node) && typeof onEnter === "function") {
