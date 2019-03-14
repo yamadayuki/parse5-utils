@@ -270,7 +270,7 @@ describe("visitCommentNode", () => {
      *       comment  <- call!
      *       p
      */
-    expect(visitor).toHaveBeenCalledTimes(5);
+    expect(visitor).toHaveBeenCalledTimes(1);
   });
 
   it("matches snapshot", () => {
