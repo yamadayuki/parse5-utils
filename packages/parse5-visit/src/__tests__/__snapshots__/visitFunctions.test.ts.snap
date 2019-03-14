@@ -14,6 +14,13 @@ Array [
 ]
 `;
 
+exports[`visitDocumentType matches snapshot 1`] = `
+Array [
+  "-> #documentType",
+  "<- #documentType",
+]
+`;
+
 exports[`visitElement matches snapshot 1`] = `
 Array [
   "  -> html",

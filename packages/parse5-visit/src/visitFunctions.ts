@@ -1,5 +1,11 @@
 import { isDocument, isDocumentFragment, isElement, isDocumentType } from "@yamadayuki/parse5-is";
-import { DefaultTreeDocument, DefaultTreeDocumentFragment, DefaultTreeElement, DefaultTreeDocumentType } from "parse5";
+import {
+  DefaultTreeDocument,
+  DefaultTreeDocumentFragment,
+  DefaultTreeElement,
+  DefaultTreeDocumentType,
+  DefaultTreeParentNode,
+} from "parse5";
 import { VisitorFunction } from "./types";
 
 export function visitDocument<T extends DefaultTreeDocument>(
@@ -56,23 +62,30 @@ export function visitDocumentFragment<T extends DefaultTreeDocumentFragment>(
   return node;
 }
 
-export function visitDocumentType<T extends DefaultTreeDocumentType>(
-  node: T,
+export function visitDocumentType(
+  node: DefaultTreeDocumentType & DefaultTreeParentNode,
   {
     onEnter,
     onLeave,
   }: {
-    onEnter?: VisitorFunction<T>;
-    onLeave?: VisitorFunction<T>;
+    onEnter?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
+    onLeave?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
   }
 ) {
-  if (isDocumentType(node) && typeof onEnter === "function") {
+  if (isDocumentType((node as any) as DefaultTreeDocumentType) && typeof onEnter === "function") {
     onEnter(node);
   }
 
-  // #documentType node has no childNodes
+  if (!isDocumentType((node as any) as DefaultTreeDocumentType)) {
+    if (node.childNodes && node.childNodes.length > 0) {
+      (node.childNodes as DefaultTreeDocumentType[]).forEach(childNode => {
+        // @ts-ignore Fix type error
+        visitDocumentType(childNode, { onEnter, onLeave });
+      });
+    }
+  }
 
-  if (isDocumentType(node) && typeof onLeave === "function") {
+  if (isDocumentType((node as any) as DefaultTreeDocumentType) && typeof onLeave === "function") {
     onLeave(node);
   }
 
