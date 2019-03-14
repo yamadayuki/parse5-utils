@@ -7,18 +7,8 @@ import {
   isElement,
   isTextNode,
 } from "@yamadayuki/parse5-is";
-import { DefaultTreeNode, DefaultTreeParentNode, DefaultTreeDocument, DefaultTreeElement } from "parse5";
-
-export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
-
-export type Visitor<T> = {
-  Element?: VisitorFunction<T> extends VisitorFunction<infer R> ? VisitorFunction<R> : VisitorFunction<T>;
-  Document?: VisitorFunction<T> extends VisitorFunction<infer R> ? VisitorFunction<R> : VisitorFunction<T>;
-  TextNode?: VisitorFunction<T> extends VisitorFunction<infer R> ? VisitorFunction<R> : VisitorFunction<T>;
-  CommentNode?: VisitorFunction<T> extends VisitorFunction<infer R> ? VisitorFunction<R> : VisitorFunction<T>;
-  DocumentFragment?: VisitorFunction<T> extends VisitorFunction<infer R> ? VisitorFunction<R> : VisitorFunction<T>;
-  DocumentType?: VisitorFunction<T> extends VisitorFunction<infer R> ? VisitorFunction<R> : VisitorFunction<T>;
-};
+import { DefaultTreeNode, DefaultTreeParentNode } from "parse5";
+import { Visitor, VisitorFunction } from "./types";
 
 export function validateVisitorMethods(visitor: Visitor<any>): void {
   for (const fn of Object.values(visitor)) {
@@ -34,60 +24,6 @@ export function applyVisitor<T extends DefaultTreeNode>(
   parent?: DefaultTreeParentNode
 ): T {
   return visitor(node, parent);
-}
-
-export function visitDocument<T extends DefaultTreeDocument>(
-  node: T,
-  {
-    onEnter,
-    onLeave,
-  }: {
-    onEnter?: VisitorFunction<T>;
-    onLeave?: VisitorFunction<T>;
-  }
-) {
-  if (isDocument(node) && typeof onEnter === "function") {
-    onEnter(node);
-  }
-
-  if (node.childNodes && node.childNodes.length > 0) {
-    node.childNodes.forEach(childNode => {
-      visitDocument(childNode as T, { onEnter, onLeave });
-    });
-  }
-
-  if (isDocument(node) && typeof onLeave === "function") {
-    onLeave(node);
-  }
-
-  return node;
-}
-
-export function visitElement<T extends DefaultTreeElement>(
-  node: T,
-  {
-    onEnter,
-    onLeave,
-  }: {
-    onEnter?: VisitorFunction<T>;
-    onLeave?: VisitorFunction<T>;
-  }
-) {
-  if (isElement(node) && typeof onEnter === "function") {
-    onEnter(node, node.parentNode);
-  }
-
-  if (node.childNodes && node.childNodes.length > 0) {
-    node.childNodes.forEach(childNode => {
-      visitElement(childNode as T, { onEnter, onLeave });
-    });
-  }
-
-  if (isElement(node) && typeof onLeave === "function") {
-    onLeave(node, node.parentNode);
-  }
-
-  return node;
 }
 
 export function traverse<T extends DefaultTreeNode>(node: T, visitor: Visitor<T>) {
