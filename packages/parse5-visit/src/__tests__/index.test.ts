@@ -2,9 +2,9 @@ import {
   DefaultTreeDocument,
   DefaultTreeDocumentFragment,
   DefaultTreeElement,
+  DefaultTreeNode,
   parse,
   parseFragment,
-  DefaultTreeNode,
 } from "parse5";
 import { applyVisitor, traverse, validateVisitorMethods, VisitorFunction } from "../index";
 
@@ -62,7 +62,7 @@ describe("traverse", () => {
     const visitor = jest.fn((node: DefaultTreeElement) => node);
 
     const parsed = parse(html);
-    traverse(parsed, { Element: visitor });
+    traverse(parsed as DefaultTreeDocument, { Element: (visitor as any) as VisitorFunction<DefaultTreeNode> });
     /**
      * the visitor is called 5 times in this suite.
      * #document
@@ -79,7 +79,7 @@ describe("traverse", () => {
     const visitor = jest.fn((node: DefaultTreeElement) => node);
 
     const parsed = parse(html);
-    traverse(parsed as DefaultTreeDocument, { Document: visitor });
+    traverse(parsed as DefaultTreeDocument, { Document: (visitor as any) as VisitorFunction<DefaultTreeNode> });
     /**
      * the visitor is called only one time in this suite.
      * #document <- call!
