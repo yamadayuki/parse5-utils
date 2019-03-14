@@ -268,6 +268,17 @@ describe("visitDocumentType", () => {
     visitDocumentType(parsed, { onEnter, onLeave });
     expect(memo).toMatchSnapshot();
   });
+
+  it("onEnter and onLeave are called with expected arguments", () => {
+    const documentTypeNode = (parsed as DefaultTreeParentNode).childNodes[0];
+    delete (documentTypeNode as DefaultTreeElement).parentNode;
+    const onEnter = jest.fn(node => node);
+    const onLeave = jest.fn(node => node);
+
+    visitDocumentType(documentTypeNode, { onEnter, onLeave });
+    expect(onEnter).toHaveBeenCalledWith(documentTypeNode);
+    expect(onLeave).toHaveBeenCalledWith(documentTypeNode);
+  });
 });
 
 describe("visitElement", () => {
