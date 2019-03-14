@@ -61,7 +61,7 @@ commands:
 
       - run:
           name: Report to Codecov
-          command: yarn codecov --token=$CODECOV_TOKEN
+          command: yarn codecov
 
 jobs:
   node-v8:
