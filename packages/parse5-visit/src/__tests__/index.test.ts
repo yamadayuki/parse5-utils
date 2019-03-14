@@ -126,4 +126,19 @@ describe("visitDocument", () => {
      */
     expect(visitor).toHaveBeenCalledTimes(1);
   });
+
+  it("matches snapshot", () => {
+    const affectedNodeName: string[] = [];
+    const onEnter = jest.fn((node: DefaultTreeDocument) => {
+      affectedNodeName.push(`-> ${node.nodeName}`);
+      return node;
+    });
+    const onLeave = jest.fn((node: DefaultTreeDocument) => {
+      affectedNodeName.push(`<- ${node.nodeName}`);
+      return node;
+    });
+
+    visitDocument(parsed as DefaultTreeDocument, { onEnter, onLeave });
+    expect(affectedNodeName).toMatchSnapshot();
+  });
 });
