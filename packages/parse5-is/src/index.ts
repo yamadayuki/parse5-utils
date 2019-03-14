@@ -42,7 +42,7 @@ export function hasSourceCodeLocation(node: Node): node is Required<Element | Te
   return (node as (DefaultTreeElement | DefaultTreeTextNode | DefaultTreeCommentNode)).sourceCodeLocation !== undefined;
 }
 
-export function hasParentNode(node: Node): node is Element | TextNode | CommentNode {
+export function hasParentNode(node: Node): node is Node & { parentNode: DefaultTreeParentNode } {
   return !(isDocument(node) || isDocumentFragment(node) || isDocumentType(node));
 }
 

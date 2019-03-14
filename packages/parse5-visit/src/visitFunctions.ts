@@ -6,6 +6,7 @@ import {
   isDocumentType,
   isElement,
   isTextNode,
+  hasParentNode,
 } from "@yamadayuki/parse5-is";
 import { CommentNode, Document, DocumentFragment, DocumentType, Element, Node, TextNode } from "parse5";
 import { VisitorFunction } from "./types";
@@ -21,7 +22,11 @@ export function visitDocument(
   }
 ) {
   if (isDocument(node) && typeof onEnter === "function") {
-    onEnter(node);
+    if (hasParentNode(node)) {
+      onEnter(node, node.parentNode);
+    } else {
+      onEnter(node);
+    }
   }
 
   if (hasChildNodes(node)) {
@@ -33,7 +38,11 @@ export function visitDocument(
   }
 
   if (isDocument(node) && typeof onLeave === "function") {
-    onLeave(node);
+    if (hasParentNode(node)) {
+      onLeave(node, node.parentNode);
+    } else {
+      onLeave(node);
+    }
   }
 
   return node;
@@ -50,7 +59,11 @@ export function visitDocumentFragment(
   }
 ) {
   if (isDocumentFragment(node) && typeof onEnter === "function") {
-    onEnter(node);
+    if (hasParentNode(node)) {
+      onEnter(node, node.parentNode);
+    } else {
+      onEnter(node);
+    }
   }
 
   if (hasChildNodes(node)) {
@@ -60,7 +73,11 @@ export function visitDocumentFragment(
   }
 
   if (isDocumentFragment(node) && typeof onLeave === "function") {
-    onLeave(node);
+    if (hasParentNode(node)) {
+      onLeave(node, node.parentNode);
+    } else {
+      onLeave(node);
+    }
   }
 
   return node;
@@ -77,7 +94,11 @@ export function visitDocumentType(
   }
 ) {
   if (isDocumentType(node) && typeof onEnter === "function") {
-    onEnter(node);
+    if (hasParentNode(node)) {
+      onEnter(node, node.parentNode);
+    } else {
+      onEnter(node);
+    }
   }
 
   if (hasChildNodes(node)) {
@@ -89,7 +110,11 @@ export function visitDocumentType(
   }
 
   if (isDocumentType(node) && typeof onLeave === "function") {
-    onLeave(node);
+    if (hasParentNode(node)) {
+      onLeave(node, node.parentNode);
+    } else {
+      onLeave(node);
+    }
   }
 
   return node;
@@ -106,7 +131,11 @@ export function visitElement(
   }
 ) {
   if (isElement(node) && typeof onEnter === "function") {
-    onEnter(node);
+    if (hasParentNode(node)) {
+      onEnter(node, node.parentNode);
+    } else {
+      onEnter(node);
+    }
   }
 
   if (hasChildNodes(node)) {
@@ -116,7 +145,11 @@ export function visitElement(
   }
 
   if (isElement(node) && typeof onLeave === "function") {
-    onLeave(node);
+    if (hasParentNode(node)) {
+      onLeave(node, node.parentNode);
+    } else {
+      onLeave(node);
+    }
   }
 
   return node;
@@ -133,7 +166,11 @@ export function visitCommentNode(
   }
 ) {
   if (isCommentNode(node) && typeof onEnter === "function") {
-    onEnter(node);
+    if (hasParentNode(node)) {
+      onEnter(node, node.parentNode);
+    } else {
+      onEnter(node);
+    }
   }
 
   if (hasChildNodes(node)) {
@@ -143,7 +180,11 @@ export function visitCommentNode(
   }
 
   if (isCommentNode(node) && typeof onLeave === "function") {
-    onLeave(node);
+    if (hasParentNode(node)) {
+      onLeave(node, node.parentNode);
+    } else {
+      onLeave(node);
+    }
   }
 
   return node;
@@ -160,7 +201,11 @@ export function visitTextNode(
   }
 ) {
   if (isTextNode(node) && typeof onEnter === "function") {
-    onEnter(node);
+    if (hasParentNode(node)) {
+      onEnter(node, node.parentNode);
+    } else {
+      onEnter(node);
+    }
   }
 
   if (hasChildNodes(node)) {
@@ -170,7 +215,11 @@ export function visitTextNode(
   }
 
   if (isTextNode(node) && typeof onLeave === "function") {
-    onLeave(node);
+    if (hasParentNode(node)) {
+      onLeave(node, node.parentNode);
+    } else {
+      onLeave(node);
+    }
   }
 
   return node;
