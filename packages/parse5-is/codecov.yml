@@ -1,0 +1,11 @@
+coverage:
+  status:
+    project:
+      is:
+        flags: is
+    patch:
+      is:
+        flags: is
+
+fixes:
+  - "::packages/parse5-is"
