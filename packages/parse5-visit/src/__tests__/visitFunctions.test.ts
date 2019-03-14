@@ -30,11 +30,11 @@ describe("visitDocument", () => {
   });
 
   it("calls `onEnter` only once", () => {
-    const visitor = jest.fn(node => node);
+    const onEnter = jest.fn(node => node);
 
-    visitDocument(parsed, { onEnter: visitor });
+    visitDocument(parsed, { onEnter });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnter is called only one time in this suite.
      * #document <- call!
      *   html
      *     head
@@ -42,22 +42,45 @@ describe("visitDocument", () => {
      *       h1
      *       p
      */
-    expect(visitor).toHaveBeenCalledTimes(1);
+    expect(onEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls `onLeave` only once", () => {
+    const onLeave = jest.fn(node => node);
+
+    visitDocument(parsed, { onLeave });
+    /**
+     * the onLeave is called only one time in this suite.
+     * #document <- call!
+     *   html
+     *     head
+     *     body
+     *       h1
+     *       p
+     */
+    expect(onLeave).toHaveBeenCalledTimes(1);
   });
 
   it("matches snapshot", () => {
-    const affectedNodeName: string[] = [];
-    const onEnter = jest.fn(node => {
-      affectedNodeName.push(`-> ${node.nodeName}`);
+    const memo: string[] = [];
+    let depth = 0;
+    const onEnter = jest.fn((node, parentNode) => {
+      if (hasParentNode(node)) {
+        depth = depth + 1;
+      }
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
       return node;
     });
-    const onLeave = jest.fn(node => {
-      affectedNodeName.push(`<- ${node.nodeName}`);
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
+      if (hasParentNode(node)) {
+        depth = depth - 1;
+      }
       return node;
     });
 
     visitDocument(parsed, { onEnter, onLeave });
-    expect(affectedNodeName).toMatchSnapshot();
+    expect(memo).toMatchSnapshot();
   });
 });
 
@@ -80,31 +103,51 @@ describe("visitDocumentFragment", () => {
   });
 
   it("calls `onEnter` only once", () => {
-    const visitor = jest.fn(node => node);
+    const onEnter = jest.fn(node => node);
 
-    visitDocumentFragment(parsed, { onEnter: visitor });
+    visitDocumentFragment(parsed, { onEnter });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnter is called only one time in this suite.
      * #document-fragment <- call!
      *   h1
      *   p
      */
-    expect(visitor).toHaveBeenCalledTimes(1);
+    expect(onEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls `onLeave` only once", () => {
+    const onLeave = jest.fn(node => node);
+
+    visitDocumentFragment(parsed, { onLeave });
+    /**
+     * the onLeave is called only one time in this suite.
+     * #document-fragment <- call!
+     *   h1
+     *   p
+     */
+    expect(onLeave).toHaveBeenCalledTimes(1);
   });
 
   it("matches snapshot", () => {
-    const affectedNodeName: string[] = [];
-    const onEnter = jest.fn(node => {
-      affectedNodeName.push(`-> ${node.nodeName}`);
+    const memo: string[] = [];
+    let depth = 0;
+    const onEnter = jest.fn((node, parentNode) => {
+      if (hasParentNode(node)) {
+        depth = depth + 1;
+      }
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
       return node;
     });
-    const onLeave = jest.fn(node => {
-      affectedNodeName.push(`<- ${node.nodeName}`);
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
+      if (hasParentNode(node)) {
+        depth = depth - 1;
+      }
       return node;
     });
 
     visitDocumentFragment(parsed, { onEnter, onLeave });
-    expect(affectedNodeName).toMatchSnapshot();
+    expect(memo).toMatchSnapshot();
   });
 });
 
@@ -139,11 +182,11 @@ describe("visitDocumentType", () => {
   });
 
   it("calls `onEnter` only once", () => {
-    const visitor = jest.fn(node => node);
+    const onEnter = jest.fn(node => node);
 
-    visitDocumentType(parsed, { onEnter: visitor });
+    visitDocumentType(parsed, { onEnter });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnter is called only one time in this suite.
      * #document
      *   #documentType  <- call!
      *   html
@@ -152,22 +195,46 @@ describe("visitDocumentType", () => {
      *       h1
      *       p
      */
-    expect(visitor).toHaveBeenCalledTimes(1);
+    expect(onEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls `onLeave` only once", () => {
+    const onLeave = jest.fn(node => node);
+
+    visitDocumentType(parsed, { onLeave });
+    /**
+     * the onLeave is called only one time in this suite.
+     * #document
+     *   #documentType  <- call!
+     *   html
+     *     head
+     *     body
+     *       h1
+     *       p
+     */
+    expect(onLeave).toHaveBeenCalledTimes(1);
   });
 
   it("matches snapshot", () => {
-    const affectedNodeName: string[] = [];
-    const onEnter = jest.fn(node => {
-      affectedNodeName.push(`-> ${node.nodeName}`);
+    const memo: string[] = [];
+    let depth = 0;
+    const onEnter = jest.fn((node, parentNode) => {
+      if (hasParentNode(node)) {
+        depth = depth + 1;
+      }
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
       return node;
     });
-    const onLeave = jest.fn(node => {
-      affectedNodeName.push(`<- ${node.nodeName}`);
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
+      if (hasParentNode(node)) {
+        depth = depth - 1;
+      }
       return node;
     });
 
     visitDocumentType(parsed, { onEnter, onLeave });
-    expect(affectedNodeName).toMatchSnapshot();
+    expect(memo).toMatchSnapshot();
   });
 });
 
@@ -189,12 +256,12 @@ describe("visitElement", () => {
     }).not.toThrow();
   });
 
-  it("calls `onEnter` only once", () => {
-    const visitor = jest.fn(node => node);
+  it("calls `onEnter` only five times", () => {
+    const onEnter = jest.fn(node => node);
 
-    visitElement(parsed, { onEnter: visitor });
+    visitElement(parsed, { onEnter });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnter is called only one time in this suite.
      * #document
      *   html    <- call!
      *     head  <- call!
@@ -202,21 +269,37 @@ describe("visitElement", () => {
      *       h1  <- call!
      *       p   <- call!
      */
-    expect(visitor).toHaveBeenCalledTimes(5);
+    expect(onEnter).toHaveBeenCalledTimes(5);
+  });
+
+  it("calls `onLeave` only five times", () => {
+    const onLeave = jest.fn(node => node);
+
+    visitElement(parsed, { onLeave });
+    /**
+     * the onLeave is called only one time in this suite.
+     * #document
+     *   html    <- call!
+     *     head  <- call!
+     *     body  <- call!
+     *       h1  <- call!
+     *       p   <- call!
+     */
+    expect(onLeave).toHaveBeenCalledTimes(5);
   });
 
   it("matches snapshot", () => {
-    const affectedNodeName: string[] = [];
+    const memo: string[] = [];
     let depth = 0;
-    const onEnter = jest.fn(node => {
+    const onEnter = jest.fn((node, parentNode) => {
       if (hasParentNode(node)) {
         depth = depth + 1;
       }
-      affectedNodeName.push(`${"".padStart(depth * 2, " ")}-> ${node.nodeName}`);
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
       return node;
     });
-    const onLeave = jest.fn(node => {
-      affectedNodeName.push(`${"".padStart(depth * 2, " ")}<- ${node.nodeName}`);
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
       if (hasParentNode(node)) {
         depth = depth - 1;
       }
@@ -224,7 +307,7 @@ describe("visitElement", () => {
     });
 
     visitElement(parsed, { onEnter, onLeave });
-    expect(affectedNodeName).toMatchSnapshot();
+    expect(memo).toMatchSnapshot();
   });
 });
 
@@ -240,19 +323,20 @@ describe("visitCommentNode", () => {
   const parsed = parse(html);
 
   it("doesn't throw", () => {
-    const visitor = jest.fn(node => node);
+    const onEnter = jest.fn(node => node);
+    const onLeave = jest.fn(node => node);
 
     expect(() => {
-      visitCommentNode(parsed, { onEnter: visitor });
+      visitCommentNode(parsed, { onEnter, onLeave });
     }).not.toThrow();
   });
 
   it("calls `onEnter` only once", () => {
-    const visitor = jest.fn(node => node);
+    const onEnter = jest.fn((node, _parentNode) => node);
 
-    visitCommentNode(parsed, { onEnter: visitor });
+    visitCommentNode(parsed, { onEnter });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnter is called only one time in this suite.
      * #document
      *   html
      *     head
@@ -261,21 +345,38 @@ describe("visitCommentNode", () => {
      *       comment  <- call!
      *       p
      */
-    expect(visitor).toHaveBeenCalledTimes(1);
+    expect(onEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls `onLeave` only once", () => {
+    const onLeave = jest.fn((node, _parentNode) => node);
+
+    visitCommentNode(parsed, { onLeave });
+    /**
+     * the onLeave is called only one time in this suite.
+     * #document
+     *   html
+     *     head
+     *     body
+     *       h1
+     *       comment  <- call!
+     *       p
+     */
+    expect(onLeave).toHaveBeenCalledTimes(1);
   });
 
   it("matches snapshot", () => {
-    const affectedNodeName: string[] = [];
+    const memo: string[] = [];
     let depth = 0;
-    const onEnter = jest.fn(node => {
+    const onEnter = jest.fn((node, parentNode) => {
       if (hasParentNode(node)) {
         depth = depth + 1;
       }
-      affectedNodeName.push(`${"".padStart(depth * 2, " ")}-> ${node.nodeName}`);
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
       return node;
     });
-    const onLeave = jest.fn(node => {
-      affectedNodeName.push(`${"".padStart(depth * 2, " ")}<- ${node.nodeName}`);
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
       if (hasParentNode(node)) {
         depth = depth - 1;
       }
@@ -283,7 +384,7 @@ describe("visitCommentNode", () => {
     });
 
     visitCommentNode(parsed, { onEnter, onLeave });
-    expect(affectedNodeName).toMatchSnapshot();
+    expect(memo).toMatchSnapshot();
   });
 });
 
@@ -299,12 +400,12 @@ describe("visitTextNode", () => {
     }).not.toThrow();
   });
 
-  it("calls `onEnter` only once", () => {
-    const visitor = jest.fn(node => node);
+  it("calls `onEnter` only twice", () => {
+    const onEnter = jest.fn(node => node);
 
-    visitTextNode(parsed, { onEnter: visitor });
+    visitTextNode(parsed, { onEnter });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnter is called only one time in this suite.
      * #document
      *   html
      *     head
@@ -314,21 +415,39 @@ describe("visitTextNode", () => {
      *       p
      *         text  <- call!
      */
-    expect(visitor).toHaveBeenCalledTimes(2);
+    expect(onEnter).toHaveBeenCalledTimes(2);
+  });
+
+  it("calls `onLeave` only twice", () => {
+    const onLeave = jest.fn(node => node);
+
+    visitTextNode(parsed, { onLeave });
+    /**
+     * the onLeave is called only one time in this suite.
+     * #document
+     *   html
+     *     head
+     *     body
+     *       h1
+     *         text  <- call!
+     *       p
+     *         text  <- call!
+     */
+    expect(onLeave).toHaveBeenCalledTimes(2);
   });
 
   it("matches snapshot", () => {
-    const affectedNodeName: string[] = [];
+    const memo: string[] = [];
     let depth = 0;
-    const onEnter = jest.fn(node => {
+    const onEnter = jest.fn((node, parentNode) => {
       if (hasParentNode(node)) {
         depth = depth + 1;
       }
-      affectedNodeName.push(`${"".padStart(depth * 2, " ")}-> ${node.nodeName}`);
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
       return node;
     });
-    const onLeave = jest.fn(node => {
-      affectedNodeName.push(`${"".padStart(depth * 2, " ")}<- ${node.nodeName}`);
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
       if (hasParentNode(node)) {
         depth = depth - 1;
       }
@@ -336,6 +455,6 @@ describe("visitTextNode", () => {
     });
 
     visitTextNode(parsed, { onEnter, onLeave });
-    expect(affectedNodeName).toMatchSnapshot();
+    expect(memo).toMatchSnapshot();
   });
 });
