@@ -1,5 +1,12 @@
-import { isDocument, isDocumentFragment, isElement } from "@yamadayuki/parse5-is";
-import { DefaultTreeDocument, DefaultTreeDocumentFragment, DefaultTreeElement } from "parse5";
+import { isDocument, isDocumentFragment, isElement, isDocumentType, isCommentNode } from "@yamadayuki/parse5-is";
+import {
+  DefaultTreeDocument,
+  DefaultTreeDocumentFragment,
+  DefaultTreeElement,
+  DefaultTreeDocumentType,
+  DefaultTreeParentNode,
+  DefaultTreeCommentNode,
+} from "parse5";
 import { VisitorFunction } from "./types";
 
 export function visitDocument<T extends DefaultTreeDocument>(
@@ -56,6 +63,36 @@ export function visitDocumentFragment<T extends DefaultTreeDocumentFragment>(
   return node;
 }
 
+export function visitDocumentType(
+  node: DefaultTreeDocumentType & DefaultTreeParentNode,
+  {
+    onEnter,
+    onLeave,
+  }: {
+    onEnter?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
+    onLeave?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
+  }
+) {
+  if (isDocumentType((node as any) as DefaultTreeDocumentType) && typeof onEnter === "function") {
+    onEnter(node);
+  }
+
+  if (!isDocumentType((node as any) as DefaultTreeDocumentType)) {
+    if (node.childNodes && node.childNodes.length > 0) {
+      (node.childNodes as DefaultTreeDocumentType[]).forEach(childNode => {
+        // @ts-ignore Fix type error
+        visitDocumentType(childNode, { onEnter, onLeave });
+      });
+    }
+  }
+
+  if (isDocumentType((node as any) as DefaultTreeDocumentType) && typeof onLeave === "function") {
+    onLeave(node);
+  }
+
+  return node;
+}
+
 export function visitElement<T extends DefaultTreeElement>(
   node: T,
   {
@@ -77,6 +114,33 @@ export function visitElement<T extends DefaultTreeElement>(
   }
 
   if (isElement(node) && typeof onLeave === "function") {
+    onLeave(node, node.parentNode);
+  }
+
+  return node;
+}
+
+export function visitCommentNode(
+  node: DefaultTreeCommentNode & DefaultTreeParentNode,
+  {
+    onEnter,
+    onLeave,
+  }: {
+    onEnter?: VisitorFunction<DefaultTreeCommentNode & DefaultTreeParentNode>;
+    onLeave?: VisitorFunction<DefaultTreeCommentNode & DefaultTreeParentNode>;
+  }
+) {
+  if (isCommentNode(node) && typeof onEnter === "function") {
+    onEnter(node, node.parentNode);
+  }
+
+  if (node.childNodes && node.childNodes.length > 0) {
+    node.childNodes.forEach(childNode => {
+      visitCommentNode(childNode as DefaultTreeCommentNode & DefaultTreeParentNode, { onEnter, onLeave });
+    });
+  }
+
+  if (isCommentNode(node) && typeof onLeave === "function") {
     onLeave(node, node.parentNode);
   }
 

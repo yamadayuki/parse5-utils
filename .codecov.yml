@@ -1,7 +1,11 @@
 coverage:
   status:
     project:
-      default: off
+      parse5-is:
+        flags: parse5-is
+      parse5-visit:
+        flags: parse5-visit
+    patch:
       parse5-is:
         flags: parse5-is
       parse5-visit:
@@ -10,7 +14,7 @@ coverage:
 flags:
   parse5-is:
     paths:
-      - packages/parse5-is/
+      - packages/parse5-is/**/*
   parse5-visit:
     paths:
-      - packages/parse5-visit/
+      - packages/parse5-visit/**/*

@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`visitCommentNode matches snapshot 1`] = `
+Array [
+  "  -> #comment",
+  "  <- #comment",
+]
+`;
+
 exports[`visitDocument matches snapshot 1`] = `
 Array [
   "-> #document",
@@ -11,6 +18,13 @@ exports[`visitDocumentFragment matches snapshot 1`] = `
 Array [
   "-> #document-fragment",
   "<- #document-fragment",
+]
+`;
+
+exports[`visitDocumentType matches snapshot 1`] = `
+Array [
+  "-> #documentType",
+  "<- #documentType",
 ]
 `;
 
