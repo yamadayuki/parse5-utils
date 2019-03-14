@@ -4,14 +4,11 @@
   "main": "index.js",
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "postinstall": "yarn bootstrap",
     "build": "lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "test": "lerna run --parallel test",
-    "test:watch": "lerna exec --parallel -- npm run test -- --watch",
-    "bump:major": "lerna run bump:major",
-    "bump:minor": "lerna run bump:minor",
-    "bump:patch": "lerna run bump:patch",
-    "release-packages": "lerna exec -- npm publish"
+    "test:watch": "lerna exec --parallel -- npm run test -- --watch"
   },
   "keywords": [],
   "author": "",

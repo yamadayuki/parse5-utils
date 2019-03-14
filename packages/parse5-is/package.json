@@ -9,10 +9,7 @@
     "build": "tsc -p .",
     "build:watch": "tsc -p . -w",
     "clean": "rm -rf lib",
-    "test": "jest -c ./jest.config.js",
-    "bump:major": "npm version major",
-    "bump:minor": "npm version minor",
-    "bump:patch": "npm version patch"
+    "test": "jest -c ./jest.config.js"
   },
   "keywords": [],
   "author": "Yuki Yamada <yamadayuuki0818@gmail.com>",
