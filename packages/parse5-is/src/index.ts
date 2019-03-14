@@ -11,6 +11,7 @@ import {
   Element,
   Node,
   TextNode,
+  DefaultTreeParentNode,
 } from "parse5";
 
 export function isElement(node: Node): node is Element {
@@ -45,6 +46,6 @@ export function hasParentNode(node: Node): node is Element | TextNode | CommentN
   return !(isDocument(node) || isDocumentFragment(node) || isDocumentType(node));
 }
 
-export function hasChildNodes(node: Node): node is Document | DocumentFragment | Element {
+export function hasChildNodes(node: Node): node is DefaultTreeParentNode {
   return isDocument(node) || isDocumentFragment(node) || isElement(node);
 }
