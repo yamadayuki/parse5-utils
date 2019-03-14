@@ -441,6 +441,18 @@ describe("visitCommentNode", () => {
     visitCommentNode(parsed, { onEnter, onLeave });
     expect(memo).toMatchSnapshot();
   });
+
+  it("onEnter and onLeave are called with expected arguments", () => {
+    const parsed = parseFragment("<!-- Hello -->");
+    const commentNode = (parsed as DefaultTreeParentNode).childNodes[0];
+    delete (commentNode as DefaultTreeCommentNode).parentNode;
+    const onEnter = jest.fn(node => node);
+    const onLeave = jest.fn(node => node);
+
+    visitCommentNode(commentNode, { onEnter, onLeave });
+    expect(onEnter).toHaveBeenCalledWith(commentNode);
+    expect(onLeave).toHaveBeenCalledWith(commentNode);
+  });
 });
 
 describe("visitTextNode", () => {
