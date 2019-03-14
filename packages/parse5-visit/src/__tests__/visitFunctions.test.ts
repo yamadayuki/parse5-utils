@@ -1,5 +1,5 @@
-import { hasParentNode } from "@yamadayuki/parse5-is";
-import { parse, parseFragment, TreeAdapter } from "parse5";
+import { hasParentNode, hasChildNodes } from "@yamadayuki/parse5-is";
+import { parse, parseFragment, TreeAdapter, DefaultTreeParentNode, DefaultTreeTextNode } from "parse5";
 // @ts-ignore for testing
 import * as defaultTreeAdapter from "parse5/lib/tree-adapters/default";
 import {
@@ -456,5 +456,17 @@ describe("visitTextNode", () => {
 
     visitTextNode(parsed, { onEnter, onLeave });
     expect(memo).toMatchSnapshot();
+  });
+
+  it("onEnter and onLeave are called with expected arguments", () => {
+    const parsed = parseFragment("Hello");
+    const textNode = (parsed as DefaultTreeParentNode).childNodes[0];
+    delete (textNode as DefaultTreeTextNode).parentNode;
+    const onEnter = jest.fn(node => node);
+    const onLeave = jest.fn(node => node);
+
+    visitTextNode(textNode, { onEnter, onLeave });
+    expect(onEnter).toHaveBeenCalledWith(textNode);
+    expect(onLeave).toHaveBeenCalledWith(textNode);
   });
 });

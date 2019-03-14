@@ -43,7 +43,7 @@ export function hasSourceCodeLocation(node: Node): node is Required<Element | Te
 }
 
 export function hasParentNode(node: Node): node is Node & { parentNode: DefaultTreeParentNode } {
-  return !(isDocument(node) || isDocumentFragment(node) || isDocumentType(node));
+  return !!(node as { parentNode: DefaultTreeParentNode }).parentNode;
 }
 
 export function hasChildNodes(node: Node): node is DefaultTreeParentNode {

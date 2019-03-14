@@ -23,8 +23,8 @@ Array [
 
 exports[`visitDocumentType matches snapshot 1`] = `
 Array [
-  " -> #documentType",
-  " <- #documentType",
+  "  #document -> #documentType",
+  "  #document <- #documentType",
 ]
 `;
 
