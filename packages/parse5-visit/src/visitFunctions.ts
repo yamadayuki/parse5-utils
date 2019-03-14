@@ -121,13 +121,13 @@ export function visitElement<T extends DefaultTreeElement>(
 }
 
 export function visitCommentNode(
-  node: DefaultTreeDocumentType & DefaultTreeParentNode,
+  node: DefaultTreeCommentNode & DefaultTreeParentNode,
   {
     onEnter,
     onLeave,
   }: {
-    onEnter?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
-    onLeave?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
+    onEnter?: VisitorFunction<DefaultTreeCommentNode & DefaultTreeParentNode>;
+    onLeave?: VisitorFunction<DefaultTreeCommentNode & DefaultTreeParentNode>;
   }
 ) {
   if (isCommentNode(node) && typeof onEnter === "function") {
@@ -136,7 +136,7 @@ export function visitCommentNode(
 
   if (node.childNodes && node.childNodes.length > 0) {
     node.childNodes.forEach(childNode => {
-      visitCommentNode(childNode as DefaultTreeDocumentType & DefaultTreeParentNode, { onEnter, onLeave });
+      visitCommentNode(childNode as DefaultTreeCommentNode & DefaultTreeParentNode, { onEnter, onLeave });
     });
   }
 

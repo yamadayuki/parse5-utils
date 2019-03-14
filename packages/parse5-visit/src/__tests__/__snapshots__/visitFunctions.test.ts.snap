@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`visitCommentNode matches snapshot 1`] = `
+Array [
+  "  -> #comment",
+  "  <- #comment",
+]
+`;
+
 exports[`visitDocument matches snapshot 1`] = `
 Array [
   "-> #document",
