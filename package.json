@@ -8,13 +8,16 @@
     "build": "lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "test": "lerna run --parallel test",
-    "test:watch": "lerna exec --parallel -- npm run test -- --watch"
+    "test:watch": "lerna exec --parallel -- npm run test -- --watch",
+    "coverage": "lerna run --parallel coverage",
+    "codecov": "codecov"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@yamadayuki/ogh-sample": "^0.2.0",
+    "codecov": "^3.2.0",
     "lerna": "^3.8.0"
   },
   "workspaces": [
