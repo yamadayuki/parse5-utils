@@ -1,10 +1,11 @@
-import { isDocument, isDocumentFragment, isElement, isDocumentType } from "@yamadayuki/parse5-is";
+import { isDocument, isDocumentFragment, isElement, isDocumentType, isCommentNode } from "@yamadayuki/parse5-is";
 import {
   DefaultTreeDocument,
   DefaultTreeDocumentFragment,
   DefaultTreeElement,
   DefaultTreeDocumentType,
   DefaultTreeParentNode,
+  DefaultTreeCommentNode,
 } from "parse5";
 import { VisitorFunction } from "./types";
 
@@ -113,6 +114,33 @@ export function visitElement<T extends DefaultTreeElement>(
   }
 
   if (isElement(node) && typeof onLeave === "function") {
+    onLeave(node, node.parentNode);
+  }
+
+  return node;
+}
+
+export function visitCommentNode(
+  node: DefaultTreeDocumentType & DefaultTreeParentNode,
+  {
+    onEnter,
+    onLeave,
+  }: {
+    onEnter?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
+    onLeave?: VisitorFunction<DefaultTreeDocumentType & DefaultTreeParentNode>;
+  }
+) {
+  if (isCommentNode(node) && typeof onEnter === "function") {
+    onEnter(node, node.parentNode);
+  }
+
+  if (node.childNodes && node.childNodes.length > 0) {
+    node.childNodes.forEach(childNode => {
+      visitCommentNode(childNode as DefaultTreeDocumentType & DefaultTreeParentNode, { onEnter, onLeave });
+    });
+  }
+
+  if (isCommentNode(node) && typeof onLeave === "function") {
     onLeave(node, node.parentNode);
   }
 
