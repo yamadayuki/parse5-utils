@@ -6,7 +6,8 @@ import {
   parse,
   parseFragment,
 } from "parse5";
-import { applyVisitor, traverse, validateVisitorMethods, VisitorFunction } from "../index";
+import { applyVisitor, traverse, validateVisitorMethods } from "../index";
+import { VisitorFunction } from "../types";
 
 describe("validateVisitorMethods", () => {
   it("should throw no errors", () => {
@@ -72,7 +73,7 @@ describe("traverse", () => {
      *       h1  <- call!
      *       p   <- call!
      */
-    expect(visitor.mock.calls.length).toBe(5);
+    expect(visitor).toHaveBeenCalledTimes(5);
   });
 
   it("should affect document object", () => {
@@ -89,6 +90,6 @@ describe("traverse", () => {
      *       h1
      *       p
      */
-    expect(visitor.mock.calls.length).toBe(1);
+    expect(visitor).toHaveBeenCalledTimes(1);
   });
 });

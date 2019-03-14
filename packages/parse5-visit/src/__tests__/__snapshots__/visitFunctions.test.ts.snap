@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`visitDocument matches snapshot 1`] = `
+Array [
+  "-> #document",
+  "<- #document",
+]
+`;
+
+exports[`visitElement matches snapshot 1`] = `
+Array [
+  "  -> html",
+  "    -> head",
+  "    <- head",
+  "    -> body",
+  "      -> h1",
+  "      <- h1",
+  "      -> p",
+  "      <- p",
+  "    <- body",
+  "  <- html",
+]
+`;
