@@ -169,6 +169,18 @@ describe("visitDocumentFragment", () => {
     visitDocumentFragment(parsed, { onEnter, onLeave });
     expect(memo).toMatchSnapshot();
   });
+
+  it("onEnter and onLeave are called with expected arguments", () => {
+    const documentFragmentNode = parsed as any;
+    documentFragmentNode.parentNode = (parsed as any).childNodes[0];
+    const parentNode = documentFragmentNode.parentNode;
+    const onEnter = jest.fn(node => node);
+    const onLeave = jest.fn(node => node);
+
+    visitDocumentFragment(documentFragmentNode, { onEnter, onLeave });
+    expect(onEnter).toHaveBeenCalledWith(documentFragmentNode, parentNode);
+    expect(onLeave).toHaveBeenCalledWith(documentFragmentNode, parentNode);
+  });
 });
 
 describe("visitDocumentType", () => {
