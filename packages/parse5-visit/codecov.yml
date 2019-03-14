@@ -8,4 +8,4 @@ coverage:
         flags: visit
 
 fixes:
-  - "::src/packages/parse5-visit"
+  - "::packages/parse5-visit"
