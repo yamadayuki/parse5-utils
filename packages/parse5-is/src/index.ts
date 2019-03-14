@@ -1,50 +1,51 @@
 import {
+  CommentNode,
   DefaultTreeCommentNode,
   DefaultTreeDocument,
   DefaultTreeDocumentFragment,
   DefaultTreeDocumentType,
   DefaultTreeElement,
-  DefaultTreeNode,
-  DefaultTreeParentNode,
   DefaultTreeTextNode,
+  Document,
+  DocumentFragment,
+  Element,
+  Node,
+  TextNode,
+  DefaultTreeParentNode,
 } from "parse5";
 
-export interface DefaultTreeTag extends DefaultTreeNode {
-  tagName?: string;
+export function isElement(node: Node): node is Element {
+  return !!(node as DefaultTreeElement).tagName;
 }
 
-export function isElement(node: DefaultTreeTag): node is DefaultTreeElement {
-  return node.tagName !== undefined && node.tagName !== null;
+export function isDocument(node: Node): node is Document {
+  return (node as DefaultTreeDocument).nodeName === "#document";
 }
 
-export function isDocument(node: DefaultTreeNode): node is DefaultTreeDocument {
-  return node.nodeName === "#document";
+export function isTextNode(node: Node): node is TextNode {
+  return (node as DefaultTreeTextNode).nodeName === "#text";
 }
 
-export function isTextNode(node: DefaultTreeNode): node is DefaultTreeTextNode {
-  return node.nodeName === "#text";
+export function isCommentNode(node: Node): node is CommentNode {
+  return (node as DefaultTreeCommentNode).nodeName === "#comment";
 }
 
-export function isCommentNode(node: DefaultTreeNode): node is DefaultTreeCommentNode {
-  return node.nodeName === "#comment";
+export function isDocumentFragment(node: Node): node is DocumentFragment {
+  return (node as DefaultTreeDocumentFragment).nodeName === "#document-fragment";
 }
 
-export function isDocumentFragment(node: DefaultTreeNode): node is DefaultTreeDocumentFragment {
-  return node.nodeName === "#document-fragment";
+export function isDocumentType(node: Node): node is DocumentType {
+  return (node as DefaultTreeDocumentType).nodeName === "#documentType";
 }
 
-export function isDocumentType(node: DefaultTreeNode): node is DefaultTreeDocumentType {
-  return node.nodeName === "#documentType";
+export function hasSourceCodeLocation(node: Node): node is Required<Element | TextNode | CommentNode> {
+  return (node as (DefaultTreeElement | DefaultTreeTextNode | DefaultTreeCommentNode)).sourceCodeLocation !== undefined;
 }
 
-export function hasSourceCodeLocation(node: DefaultTreeElement | DefaultTreeTextNode): node is Required<typeof node> {
-  return node.sourceCodeLocation !== undefined;
+export function hasParentNode(node: Node): node is Node & { parentNode: DefaultTreeParentNode } {
+  return !!(node as { parentNode: DefaultTreeParentNode }).parentNode;
 }
 
-export function hasParentNode(node: DefaultTreeNode): node is DefaultTreeNode & { parentNode: DefaultTreeParentNode } {
-  return !(isDocument(node) || isDocumentFragment(node) || isDocumentType(node));
-}
-
-export function hasChildNodes(node: DefaultTreeNode): node is DefaultTreeNode & DefaultTreeParentNode {
-  return isDocument(node) || isDocumentFragment(node) || isElement(node);
+export function hasChildNodes(node: Node): node is DefaultTreeParentNode {
+  return (node as DefaultTreeParentNode).childNodes && (node as DefaultTreeParentNode).childNodes.length > 0;
 }

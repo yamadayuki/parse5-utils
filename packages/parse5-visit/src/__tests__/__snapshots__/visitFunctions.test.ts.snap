@@ -2,52 +2,52 @@
 
 exports[`visitCommentNode matches snapshot 1`] = `
 Array [
-  "  -> #comment",
-  "  <- #comment",
+  "  body -> #comment",
+  "  body <- #comment",
 ]
 `;
 
 exports[`visitDocument matches snapshot 1`] = `
 Array [
-  "-> #document",
-  "<- #document",
+  " -> #document",
+  " <- #document",
 ]
 `;
 
 exports[`visitDocumentFragment matches snapshot 1`] = `
 Array [
-  "-> #document-fragment",
-  "<- #document-fragment",
+  " -> #document-fragment",
+  " <- #document-fragment",
 ]
 `;
 
 exports[`visitDocumentType matches snapshot 1`] = `
 Array [
-  "-> #documentType",
-  "<- #documentType",
+  "  #document -> #documentType",
+  "  #document <- #documentType",
 ]
 `;
 
 exports[`visitElement matches snapshot 1`] = `
 Array [
-  "  -> html",
-  "    -> head",
-  "    <- head",
-  "    -> body",
-  "      -> h1",
-  "      <- h1",
-  "      -> p",
-  "      <- p",
-  "    <- body",
-  "  <- html",
+  "  #document -> html",
+  "    html -> head",
+  "    html <- head",
+  "    html -> body",
+  "      body -> h1",
+  "      body <- h1",
+  "      body -> p",
+  "      body <- p",
+  "    html <- body",
+  "  #document <- html",
 ]
 `;
 
 exports[`visitTextNode matches snapshot 1`] = `
 Array [
-  "  -> #text",
-  "  <- #text",
-  "  -> #text",
-  "  <- #text",
+  "  h1 -> #text",
+  "  h1 <- #text",
+  "  p -> #text",
+  "  p <- #text",
 ]
 `;

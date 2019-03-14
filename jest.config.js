@@ -3,4 +3,5 @@ module.exports = {
   preset: "ts-jest",
   moduleFileExtensions: ["js", "json", "ts"],
   testMatch: ["**/__tests__/**/*.test.ts"],
+  collectCoverageFrom: ["**/*.ts", "!**/*.d.ts"],
 };
