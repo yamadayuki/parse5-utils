@@ -42,3 +42,12 @@ Array [
   "  <- html",
 ]
 `;
+
+exports[`visitTextNode matches snapshot 1`] = `
+Array [
+  "  -> #text",
+  "  <- #text",
+  "  -> #text",
+  "  <- #text",
+]
+`;

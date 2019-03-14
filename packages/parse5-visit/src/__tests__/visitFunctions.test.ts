@@ -1,24 +1,26 @@
 import { hasParentNode } from "@yamadayuki/parse5-is";
 import {
+  DefaultTreeCommentNode,
   DefaultTreeDocument,
   DefaultTreeDocumentFragment,
+  DefaultTreeDocumentType,
   DefaultTreeElement,
+  DefaultTreeParentNode,
+  DefaultTreeTextNode,
   parse,
   parseFragment,
-  DefaultTreeDocumentType,
   TreeAdapter,
-  DefaultTreeParentNode,
-  DefaultTreeCommentNode,
 } from "parse5";
-import {
-  visitDocument,
-  visitDocumentFragment,
-  visitElement,
-  visitDocumentType,
-  visitCommentNode,
-} from "../visitFunctions";
 // @ts-ignore for testing
 import * as defaultTreeAdapter from "parse5/lib/tree-adapters/default";
+import {
+  visitCommentNode,
+  visitDocument,
+  visitDocumentFragment,
+  visitDocumentType,
+  visitElement,
+  visitTextNode,
+} from "../visitFunctions";
 
 describe("visitDocument", () => {
   const html = `<!DOCTYPE html>
@@ -292,6 +294,59 @@ describe("visitCommentNode", () => {
     });
 
     visitCommentNode(parsed as DefaultTreeCommentNode & DefaultTreeParentNode, { onEnter, onLeave });
+    expect(affectedNodeName).toMatchSnapshot();
+  });
+});
+
+describe("visitTextNode", () => {
+  const html = "<!DOCTYPE html><html><body><h1>My First Heading</h1><p>My first paragraph.</p></body></html>";
+  const parsed = parse(html);
+
+  it("doesn't throw", () => {
+    const visitor = jest.fn(node => node);
+
+    expect(() => {
+      visitTextNode(parsed as DefaultTreeTextNode & DefaultTreeParentNode, { onEnter: visitor });
+    }).not.toThrow();
+  });
+
+  it("calls `onEnter` only once", () => {
+    const visitor = jest.fn(node => node);
+
+    visitTextNode(parsed as DefaultTreeTextNode & DefaultTreeParentNode, { onEnter: visitor });
+    /**
+     * the visitor is called only one time in this suite.
+     * #document
+     *   html
+     *     head
+     *     body
+     *       h1
+     *         text  <- call!
+     *       p
+     *         text  <- call!
+     */
+    expect(visitor).toHaveBeenCalledTimes(2);
+  });
+
+  it("matches snapshot", () => {
+    const affectedNodeName: string[] = [];
+    let depth = 0;
+    const onEnter = jest.fn(node => {
+      if (hasParentNode(node)) {
+        depth = depth + 1;
+      }
+      affectedNodeName.push(`${"".padStart(depth * 2, " ")}-> ${node.nodeName}`);
+      return node;
+    });
+    const onLeave = jest.fn(node => {
+      affectedNodeName.push(`${"".padStart(depth * 2, " ")}<- ${node.nodeName}`);
+      if (hasParentNode(node)) {
+        depth = depth - 1;
+      }
+      return node;
+    });
+
+    visitTextNode(parsed as DefaultTreeTextNode & DefaultTreeParentNode, { onEnter, onLeave });
     expect(affectedNodeName).toMatchSnapshot();
   });
 });
