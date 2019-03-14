@@ -7,7 +7,7 @@ import {
   isElement,
   isTextNode,
 } from "@yamadayuki/parse5-is";
-import { DefaultTreeNode, DefaultTreeParentNode } from "parse5";
+import { DefaultTreeNode, DefaultTreeParentNode, DefaultTreeDocument } from "parse5";
 
 export type VisitorFunction<T> = (node: T, parent?: DefaultTreeParentNode) => T;
 
@@ -34,6 +34,33 @@ export function applyVisitor<T extends DefaultTreeNode>(
   parent?: DefaultTreeParentNode
 ): T {
   return visitor(node, parent);
+}
+
+export function visitDocument<T extends DefaultTreeDocument>(
+  node: T,
+  {
+    onEnter,
+    onLeave,
+  }: {
+    onEnter?: VisitorFunction<T>;
+    onLeave?: VisitorFunction<T>;
+  }
+) {
+  if (isDocument(node)) {
+    if (typeof onEnter === "function") {
+      onEnter(node);
+    }
+
+    node.childNodes.forEach(childNode => {
+      visitDocument(childNode as T, { onEnter, onLeave });
+    });
+
+    if (typeof onLeave === "function") {
+      onLeave(node);
+    }
+  }
+
+  return node;
 }
 
 export function traverse<T extends DefaultTreeNode>(node: T, visitor: Visitor<T>) {
