@@ -11,7 +11,7 @@
     "clean": "rm -rf lib",
     "test": "jest -c ./jest.config.js",
     "coverage": "jest -c ./jest.config.js --collectCoverage",
-    "codecov": "codecov -F=parse5-visit"
+    "codecov": "codecov -F parse5-visit"
   },
   "keywords": [],
   "author": "Yuki Yamada <yamadayuuki0818@gmail.com>",
