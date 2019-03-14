@@ -47,5 +47,5 @@ export function hasParentNode(node: Node): node is Node & { parentNode: DefaultT
 }
 
 export function hasChildNodes(node: Node): node is DefaultTreeParentNode {
-  return isDocument(node) || isDocumentFragment(node) || isElement(node);
+  return (node as DefaultTreeParentNode).childNodes && (node as DefaultTreeParentNode).childNodes.length > 0;
 }
