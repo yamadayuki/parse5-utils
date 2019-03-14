@@ -7,6 +7,13 @@ Array [
 ]
 `;
 
+exports[`visitDocumentFragment matches snapshot 1`] = `
+Array [
+  "-> #document-fragment",
+  "<- #document-fragment",
+]
+`;
+
 exports[`visitElement matches snapshot 1`] = `
 Array [
   "  -> html",
