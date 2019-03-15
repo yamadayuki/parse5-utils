@@ -10,6 +10,7 @@ import {
 } from "@yamadayuki/parse5-is";
 import { DefaultTreeNode, Node } from "parse5";
 import { Visitors } from "./types";
+export * from "./visitFunctions";
 
 export function traverse(
   node: Node,
