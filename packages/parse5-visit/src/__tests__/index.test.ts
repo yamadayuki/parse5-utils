@@ -1,54 +1,6 @@
-import {
-  DefaultTreeDocument,
-  DefaultTreeDocumentFragment,
-  DefaultTreeElement,
-  DefaultTreeNode,
-  parse,
-  parseFragment,
-} from "parse5";
-import { applyVisitor, traverse, validateVisitorMethods } from "../index";
-import { VisitorFunction } from "../types";
-
-describe("validateVisitorMethods", () => {
-  it("should throw no errors", () => {
-    const fn = jest.fn((node: any) => node);
-    expect(() => validateVisitorMethods({ Element: fn })).not.toThrow();
-  });
-
-  it("should throw an error", () => {
-    expect(() => validateVisitorMethods({ Element: 2 as any })).toThrow();
-  });
-});
-
-describe("applyVisitor", () => {
-  const html = "<h1>My First Heading</h1>";
-
-  test("should apply the received function", () => {
-    const transformH1ToH2 = (node: DefaultTreeElement) => {
-      if (node.nodeName === "h1") {
-        node.nodeName = "h2";
-        node.tagName = "h2";
-      }
-      return node;
-    };
-
-    const parsed = parseFragment(html) as DefaultTreeDocumentFragment; // #document-fragment
-    const h1 = parsed.childNodes[0] as DefaultTreeElement;
-    const transformed = applyVisitor(h1, transformH1ToH2);
-
-    expect(transformed.nodeName).toBe("h2");
-    expect(transformed.tagName).toBe("h2");
-  });
-
-  test("should throw error when the recieved visitor function is invalid", () => {
-    const parsed = parseFragment(html) as DefaultTreeDocumentFragment; // #document-fragment
-    const h1 = parsed.childNodes[0];
-
-    expect(() => {
-      applyVisitor(h1, (2 as any) as VisitorFunction<DefaultTreeNode>);
-    }).toThrow();
-  });
-});
+import { hasParentNode } from "@yamadayuki/parse5-is";
+import { DefaultTreeElement, parse } from "parse5";
+import { traverse } from "../index";
 
 describe("traverse", () => {
   const html = `<!DOCTYPE html>
@@ -60,12 +12,12 @@ describe("traverse", () => {
   </html>`;
 
   it("should affect only element", () => {
-    const visitor = jest.fn((node: DefaultTreeElement) => node);
+    const onEnterElement = jest.fn(node => node);
 
     const parsed = parse(html);
-    traverse(parsed as DefaultTreeDocument, { Element: (visitor as any) as VisitorFunction<DefaultTreeNode> });
+    traverse(parsed, { onEnterElement });
     /**
-     * the visitor is called 5 times in this suite.
+     * the onEnterElement is called 5 times in this suite.
      * #document
      *   html    <- call!
      *     head  <- call!
@@ -73,16 +25,16 @@ describe("traverse", () => {
      *       h1  <- call!
      *       p   <- call!
      */
-    expect(visitor).toHaveBeenCalledTimes(5);
+    expect(onEnterElement).toHaveBeenCalledTimes(5);
   });
 
   it("should affect document object", () => {
-    const visitor = jest.fn((node: DefaultTreeElement) => node);
+    const onEnterDocument = jest.fn(node => node);
 
     const parsed = parse(html);
-    traverse(parsed as DefaultTreeDocument, { Document: (visitor as any) as VisitorFunction<DefaultTreeNode> });
+    traverse(parsed, { onEnterDocument });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnterDocument is called only one time in this suite.
      * #document <- call!
      *   html
      *     head
@@ -90,6 +42,59 @@ describe("traverse", () => {
      *       h1
      *       p
      */
-    expect(visitor).toHaveBeenCalledTimes(1);
+    expect(onEnterDocument).toHaveBeenCalledTimes(1);
+  });
+
+  it("matches snapshot", () => {
+    const memo: {
+      depth: number;
+      paths: string[];
+      updateDepth: (d: number) => void;
+      pushPath: (node: DefaultTreeElement, parentNode: DefaultTreeElement, event: "enter" | "leave") => void;
+    } = {
+      depth: 0,
+      paths: [],
+      updateDepth(d) {
+        this.depth = this.depth + d;
+      },
+      pushPath(node, parentNode, event) {
+        this.paths.push(
+          `${"".padStart(memo.depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} ${
+            event === "enter" ? "->" : "<-"
+          } ${node.nodeName}`
+        );
+      },
+    };
+    const onEnter = jest.fn((node, parentNode) => {
+      if (hasParentNode(node)) {
+        memo.updateDepth(1);
+      }
+      memo.pushPath(node, parentNode, "enter");
+      return node;
+    });
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.pushPath(node, parentNode, "leave");
+      if (hasParentNode(node)) {
+        memo.updateDepth(-1);
+      }
+      return node;
+    });
+    const parsed = parse(html);
+
+    traverse(parsed, {
+      onEnterDocument: onEnter,
+      onLeaveDocument: onLeave,
+      onEnterDocumentFragment: onEnter,
+      onLeaveDocumentFragment: onLeave,
+      onEnterDocumentType: onEnter,
+      onLeaveDocumentType: onLeave,
+      onEnterElement: onEnter,
+      onLeaveElement: onLeave,
+      onEnterCommentNode: onEnter,
+      onLeaveCommentNode: onLeave,
+      onEnterTextNode: onEnter,
+      onLeaveTextNode: onLeave,
+    });
+    expect(memo.paths).toMatchSnapshot();
   });
 });

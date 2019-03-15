@@ -16,9 +16,11 @@ export function visitDocument(
   {
     onEnter,
     onLeave,
+    visitChildNodes,
   }: {
     onEnter?: VisitorFunction<Document>;
     onLeave?: VisitorFunction<Document>;
+    visitChildNodes?: boolean;
   }
 ) {
   if (isDocument(node) && typeof onEnter === "function") {
@@ -29,10 +31,10 @@ export function visitDocument(
     }
   }
 
-  if (hasChildNodes(node)) {
+  if (visitChildNodes && hasChildNodes(node)) {
     if (node.childNodes && node.childNodes.length > 0) {
       node.childNodes.forEach(childNode => {
-        visitDocument(childNode, { onEnter, onLeave });
+        visitDocument(childNode, { onEnter, onLeave, visitChildNodes });
       });
     }
   }
@@ -53,9 +55,11 @@ export function visitDocumentFragment(
   {
     onEnter,
     onLeave,
+    visitChildNodes,
   }: {
     onEnter?: VisitorFunction<DocumentFragment>;
     onLeave?: VisitorFunction<DocumentFragment>;
+    visitChildNodes?: boolean;
   }
 ) {
   if (isDocumentFragment(node) && typeof onEnter === "function") {
@@ -66,9 +70,9 @@ export function visitDocumentFragment(
     }
   }
 
-  if (hasChildNodes(node)) {
+  if (visitChildNodes && hasChildNodes(node)) {
     node.childNodes.forEach(childNode => {
-      visitDocumentFragment(childNode, { onEnter, onLeave });
+      visitDocumentFragment(childNode, { onEnter, onLeave, visitChildNodes });
     });
   }
 
@@ -88,9 +92,11 @@ export function visitDocumentType(
   {
     onEnter,
     onLeave,
+    visitChildNodes,
   }: {
     onEnter?: VisitorFunction<DocumentType>;
     onLeave?: VisitorFunction<DocumentType>;
+    visitChildNodes?: boolean;
   }
 ) {
   if (isDocumentType(node) && typeof onEnter === "function") {
@@ -101,10 +107,10 @@ export function visitDocumentType(
     }
   }
 
-  if (hasChildNodes(node)) {
+  if (visitChildNodes && hasChildNodes(node)) {
     if (node.childNodes && node.childNodes.length > 0) {
       node.childNodes.forEach(childNode => {
-        visitDocumentType(childNode, { onEnter, onLeave });
+        visitDocumentType(childNode, { onEnter, onLeave, visitChildNodes });
       });
     }
   }
@@ -125,9 +131,11 @@ export function visitElement(
   {
     onEnter,
     onLeave,
+    visitChildNodes,
   }: {
     onEnter?: VisitorFunction<Element>;
     onLeave?: VisitorFunction<Element>;
+    visitChildNodes?: boolean;
   }
 ) {
   if (isElement(node) && typeof onEnter === "function") {
@@ -138,9 +146,9 @@ export function visitElement(
     }
   }
 
-  if (hasChildNodes(node)) {
+  if (visitChildNodes && hasChildNodes(node)) {
     node.childNodes.forEach(childNode => {
-      visitElement(childNode, { onEnter, onLeave });
+      visitElement(childNode, { onEnter, onLeave, visitChildNodes });
     });
   }
 
@@ -160,9 +168,11 @@ export function visitCommentNode(
   {
     onEnter,
     onLeave,
+    visitChildNodes,
   }: {
     onEnter?: VisitorFunction<CommentNode>;
     onLeave?: VisitorFunction<CommentNode>;
+    visitChildNodes?: boolean;
   }
 ) {
   if (isCommentNode(node) && typeof onEnter === "function") {
@@ -173,9 +183,9 @@ export function visitCommentNode(
     }
   }
 
-  if (hasChildNodes(node)) {
+  if (visitChildNodes && hasChildNodes(node)) {
     node.childNodes.forEach(childNode => {
-      visitCommentNode(childNode, { onEnter, onLeave });
+      visitCommentNode(childNode, { onEnter, onLeave, visitChildNodes });
     });
   }
 
@@ -195,9 +205,11 @@ export function visitTextNode(
   {
     onEnter,
     onLeave,
+    visitChildNodes,
   }: {
     onEnter?: VisitorFunction<TextNode>;
     onLeave?: VisitorFunction<TextNode>;
+    visitChildNodes?: boolean;
   }
 ) {
   if (isTextNode(node) && typeof onEnter === "function") {
@@ -208,9 +220,9 @@ export function visitTextNode(
     }
   }
 
-  if (hasChildNodes(node)) {
+  if (visitChildNodes && hasChildNodes(node)) {
     node.childNodes.forEach(childNode => {
-      visitTextNode(childNode, { onEnter, onLeave });
+      visitTextNode(childNode, { onEnter, onLeave, visitChildNodes });
     });
   }
 

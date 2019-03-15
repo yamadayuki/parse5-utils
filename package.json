@@ -8,6 +8,7 @@
     "build": "lerna run build",
     "build:watch": "lerna run --parallel build:watch",
     "test": "lerna run --parallel test",
+    "test:update": "lerna run --parallel test:update",
     "test:watch": "lerna exec --parallel -- npm run test -- --watch",
     "coverage": "jest -c ./jest.config.js --collectCoverage",
     "codecov": "codecov"

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`traverse matches snapshot 1`] = `
+Array [
+  " -> #document",
+  "  #document -> #documentType",
+  "  #document <- #documentType",
+  "  #document -> html",
+  "    html -> head",
+  "    html <- head",
+  "    html -> body",
+  "      body -> #text",
+  "      body <- #text",
+  "      body -> h1",
+  "        h1 -> #text",
+  "        h1 <- #text",
+  "      body <- h1",
+  "      body -> #text",
+  "      body <- #text",
+  "      body -> p",
+  "        p -> #text",
+  "        p <- #text",
+  "      body <- p",
+  "      body -> #text",
+  "      body <- #text",
+  "    html <- body",
+  "  #document <- html",
+  " <- #document",
+]
+`;
