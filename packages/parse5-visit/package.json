@@ -10,6 +10,7 @@
     "build:watch": "tsc -p . -w",
     "clean": "rm -rf lib",
     "test": "jest -c ./jest.config.js",
+    "test:update": "jest -c ./jest.config.js -u",
     "coverage": "jest -c ./jest.config.js --collectCoverage"
   },
   "keywords": [],
