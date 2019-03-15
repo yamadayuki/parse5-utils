@@ -1,17 +1,6 @@
-import { parse } from "parse5";
-import { traverse, validateVisitorMethods } from "../index";
 import { hasParentNode } from "@yamadayuki/parse5-is";
-
-describe("validateVisitorMethods", () => {
-  it("should throw no errors", () => {
-    const onEnterElement = jest.fn((node: any) => node);
-    expect(() => validateVisitorMethods({ onEnterElement })).not.toThrow();
-  });
-
-  it("should throw an error", () => {
-    expect(() => validateVisitorMethods({ onEnterElement: 2 as any })).toThrow();
-  });
-});
+import { DefaultTreeElement, parse } from "parse5";
+import { traverse } from "../index";
 
 describe("traverse", () => {
   const html = `<!DOCTYPE html>
@@ -57,19 +46,36 @@ describe("traverse", () => {
   });
 
   it("matches snapshot", () => {
-    const memo: string[] = [];
-    let depth = 0;
+    const memo: {
+      depth: number;
+      paths: string[];
+      updateDepth: (d: number) => void;
+      pushPath: (node: DefaultTreeElement, parentNode: DefaultTreeElement, event: "enter" | "leave") => void;
+    } = {
+      depth: 0,
+      paths: [],
+      updateDepth(d) {
+        this.depth = this.depth + d;
+      },
+      pushPath(node, parentNode, event) {
+        this.paths.push(
+          `${"".padStart(memo.depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} ${
+            event === "enter" ? "->" : "<-"
+          } ${node.nodeName}`
+        );
+      },
+    };
     const onEnter = jest.fn((node, parentNode) => {
       if (hasParentNode(node)) {
-        depth = depth + 1;
+        memo.updateDepth(1);
       }
-      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
+      memo.pushPath(node, parentNode, "enter");
       return node;
     });
     const onLeave = jest.fn((node, parentNode) => {
-      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
+      memo.pushPath(node, parentNode, "leave");
       if (hasParentNode(node)) {
-        depth = depth - 1;
+        memo.updateDepth(-1);
       }
       return node;
     });
@@ -89,6 +95,6 @@ describe("traverse", () => {
       onEnterTextNode: onEnter,
       onLeaveTextNode: onLeave,
     });
-    expect(memo).toMatchSnapshot();
+    expect(memo.paths).toMatchSnapshot();
   });
 });

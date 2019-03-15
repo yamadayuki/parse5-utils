@@ -1,40 +1,149 @@
-import { Node } from "parse5";
-import { Visitors } from "./types";
 import {
-  visitCommentNode,
-  visitDocument,
-  visitDocumentFragment,
-  visitDocumentType,
-  visitElement,
-  visitTextNode,
-} from "./visitFunctions";
+  hasChildNodes,
+  hasParentNode,
+  isCommentNode,
+  isDocument,
+  isDocumentFragment,
+  isDocumentType,
+  isElement,
+  isTextNode,
+} from "@yamadayuki/parse5-is";
+import { DefaultTreeNode, Node } from "parse5";
+import { Visitors } from "./types";
 
-export function validateVisitorMethods(visitors: Visitors): void {
-  for (const fn of Object.values(visitors)) {
-    if (typeof fn !== "function") {
-      throw new TypeError(`Non-function found with type ${typeof fn}`);
+export function traverse(
+  node: Node,
+  {
+    onEnterDocument,
+    onLeaveDocument,
+    onEnterDocumentFragment,
+    onLeaveDocumentFragment,
+    onEnterDocumentType,
+    onLeaveDocumentType,
+    onEnterElement,
+    onLeaveElement,
+    onEnterCommentNode,
+    onLeaveCommentNode,
+    onEnterTextNode,
+    onLeaveTextNode,
+  }: Visitors
+) {
+  if (isDocument(node) && typeof onEnterDocument === "function") {
+    if (hasParentNode(node)) {
+      onEnterDocument(node, node.parentNode);
+    } else {
+      onEnterDocument(node);
     }
   }
-}
 
-export function traverse(node: Node, visitors: Visitors) {
-  validateVisitorMethods(visitors);
+  if (isDocumentFragment(node) && typeof onEnterDocumentFragment === "function") {
+    if (hasParentNode(node)) {
+      onEnterDocumentFragment(node, node.parentNode);
+    } else {
+      onEnterDocumentFragment(node);
+    }
+  }
 
-  node = visitDocument(node, { onEnter: visitors.onEnterDocument, onLeave: visitors.onLeaveDocument });
-  node = visitDocumentFragment(node, {
-    onEnter: visitors.onEnterDocumentFragment,
-    onLeave: visitors.onLeaveDocumentFragment,
-  });
-  node = visitDocumentType(node, {
-    onEnter: visitors.onEnterDocumentType,
-    onLeave: visitors.onLeaveDocumentType,
-  });
-  node = visitElement(node, { onEnter: visitors.onEnterElement, onLeave: visitors.onLeaveElement });
-  node = visitCommentNode(node, {
-    onEnter: visitors.onEnterCommentNode,
-    onLeave: visitors.onLeaveCommentNode,
-  });
-  node = visitTextNode(node, { onEnter: visitors.onEnterTextNode, onLeave: visitors.onLeaveTextNode });
+  if (isDocumentType(node) && typeof onEnterDocumentType === "function") {
+    if (hasParentNode(node)) {
+      onEnterDocumentType(node, node.parentNode);
+    } else {
+      onEnterDocumentType(node);
+    }
+  }
+
+  if (isElement(node) && typeof onEnterElement === "function") {
+    if (hasParentNode(node)) {
+      onEnterElement(node, node.parentNode);
+    } else {
+      onEnterElement(node);
+    }
+  }
+
+  if (isCommentNode(node) && typeof onEnterCommentNode === "function") {
+    if (hasParentNode(node)) {
+      onEnterCommentNode(node, node.parentNode);
+    } else {
+      onEnterCommentNode(node);
+    }
+  }
+
+  if (isTextNode(node) && typeof onEnterTextNode === "function") {
+    if (hasParentNode(node)) {
+      onEnterTextNode(node, node.parentNode);
+    } else {
+      onEnterTextNode(node);
+    }
+  }
+
+  if (hasChildNodes(node)) {
+    const newChildNodes = node.childNodes.map(
+      childNode =>
+        traverse(childNode, {
+          onEnterDocument,
+          onLeaveDocument,
+          onEnterDocumentFragment,
+          onLeaveDocumentFragment,
+          onEnterDocumentType,
+          onLeaveDocumentType,
+          onEnterElement,
+          onLeaveElement,
+          onEnterCommentNode,
+          onLeaveCommentNode,
+          onEnterTextNode,
+          onLeaveTextNode,
+        }) as DefaultTreeNode
+    );
+    node.childNodes = newChildNodes;
+  }
+
+  if (isTextNode(node) && typeof onLeaveTextNode === "function") {
+    if (hasParentNode(node)) {
+      onLeaveTextNode(node, node.parentNode);
+    } else {
+      onLeaveTextNode(node);
+    }
+  }
+
+  if (isCommentNode(node) && typeof onLeaveCommentNode === "function") {
+    if (hasParentNode(node)) {
+      onLeaveCommentNode(node, node.parentNode);
+    } else {
+      onLeaveCommentNode(node);
+    }
+  }
+
+  if (isElement(node) && typeof onLeaveElement === "function") {
+    if (hasParentNode(node)) {
+      onLeaveElement(node, node.parentNode);
+    } else {
+      onLeaveElement(node);
+    }
+  }
+
+  if (isDocumentType(node) && typeof onLeaveDocumentType === "function") {
+    if (hasParentNode(node)) {
+      onLeaveDocumentType(node, node.parentNode);
+    } else {
+      onLeaveDocumentType(node);
+    }
+  }
+
+  if (isDocumentFragment(node) && typeof onLeaveDocumentFragment === "function") {
+    if (hasParentNode(node)) {
+      onLeaveDocumentFragment(node, node.parentNode);
+    } else {
+      onLeaveDocumentFragment(node);
+    }
+  }
+
+  if (isDocument(node) && typeof onLeaveDocument === "function") {
+    if (hasParentNode(node)) {
+      onLeaveDocument(node, node.parentNode);
+    } else {
+      onLeaveDocument(node);
+    }
+  }
 
   return node;
 }
