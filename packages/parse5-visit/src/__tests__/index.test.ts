@@ -6,47 +6,17 @@ import {
   parse,
   parseFragment,
 } from "parse5";
-import { applyVisitor, traverse, validateVisitorMethods } from "../index";
+import { traverse, validateVisitorMethods } from "../index";
 import { VisitorFunction } from "../types";
 
 describe("validateVisitorMethods", () => {
   it("should throw no errors", () => {
-    const fn = jest.fn((node: any) => node);
-    expect(() => validateVisitorMethods({ Element: fn })).not.toThrow();
+    const onEnterElement = jest.fn((node: any) => node);
+    expect(() => validateVisitorMethods({ onEnterElement })).not.toThrow();
   });
 
   it("should throw an error", () => {
-    expect(() => validateVisitorMethods({ Element: 2 as any })).toThrow();
-  });
-});
-
-describe("applyVisitor", () => {
-  const html = "<h1>My First Heading</h1>";
-
-  test("should apply the received function", () => {
-    const transformH1ToH2 = (node: DefaultTreeElement) => {
-      if (node.nodeName === "h1") {
-        node.nodeName = "h2";
-        node.tagName = "h2";
-      }
-      return node;
-    };
-
-    const parsed = parseFragment(html) as DefaultTreeDocumentFragment; // #document-fragment
-    const h1 = parsed.childNodes[0] as DefaultTreeElement;
-    const transformed = applyVisitor(h1, transformH1ToH2);
-
-    expect(transformed.nodeName).toBe("h2");
-    expect(transformed.tagName).toBe("h2");
-  });
-
-  test("should throw error when the recieved visitor function is invalid", () => {
-    const parsed = parseFragment(html) as DefaultTreeDocumentFragment; // #document-fragment
-    const h1 = parsed.childNodes[0];
-
-    expect(() => {
-      applyVisitor(h1, (2 as any) as VisitorFunction<DefaultTreeNode>);
-    }).toThrow();
+    expect(() => validateVisitorMethods({ onEnterElement: 2 as any })).toThrow();
   });
 });
 
@@ -60,12 +30,12 @@ describe("traverse", () => {
   </html>`;
 
   it("should affect only element", () => {
-    const visitor = jest.fn((node: DefaultTreeElement) => node);
+    const onEnterElement = jest.fn(node => node);
 
     const parsed = parse(html);
-    traverse(parsed as DefaultTreeDocument, { Element: (visitor as any) as VisitorFunction<DefaultTreeNode> });
+    traverse(parsed, { onEnterElement });
     /**
-     * the visitor is called 5 times in this suite.
+     * the onEnterElement is called 5 times in this suite.
      * #document
      *   html    <- call!
      *     head  <- call!
@@ -73,16 +43,16 @@ describe("traverse", () => {
      *       h1  <- call!
      *       p   <- call!
      */
-    expect(visitor).toHaveBeenCalledTimes(5);
+    expect(onEnterElement).toHaveBeenCalledTimes(5);
   });
 
   it("should affect document object", () => {
-    const visitor = jest.fn((node: DefaultTreeElement) => node);
+    const onEnterDocument = jest.fn(node => node);
 
     const parsed = parse(html);
-    traverse(parsed as DefaultTreeDocument, { Document: (visitor as any) as VisitorFunction<DefaultTreeNode> });
+    traverse(parsed, { onEnterDocument });
     /**
-     * the visitor is called only one time in this suite.
+     * the onEnterDocument is called only one time in this suite.
      * #document <- call!
      *   html
      *     head
@@ -90,6 +60,6 @@ describe("traverse", () => {
      *       h1
      *       p
      */
-    expect(visitor).toHaveBeenCalledTimes(1);
+    expect(onEnterDocument).toHaveBeenCalledTimes(1);
   });
 });
