@@ -1,13 +1,6 @@
-import {
-  DefaultTreeDocument,
-  DefaultTreeDocumentFragment,
-  DefaultTreeElement,
-  DefaultTreeNode,
-  parse,
-  parseFragment,
-} from "parse5";
+import { parse } from "parse5";
 import { traverse, validateVisitorMethods } from "../index";
-import { VisitorFunction } from "../types";
+import { hasParentNode } from "@yamadayuki/parse5-is";
 
 describe("validateVisitorMethods", () => {
   it("should throw no errors", () => {
@@ -61,5 +54,41 @@ describe("traverse", () => {
      *       p
      */
     expect(onEnterDocument).toHaveBeenCalledTimes(1);
+  });
+
+  it("matches snapshot", () => {
+    const memo: string[] = [];
+    let depth = 0;
+    const onEnter = jest.fn((node, parentNode) => {
+      if (hasParentNode(node)) {
+        depth = depth + 1;
+      }
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} -> ${node.nodeName}`);
+      return node;
+    });
+    const onLeave = jest.fn((node, parentNode) => {
+      memo.push(`${"".padStart(depth * 2, " ")}${parentNode ? parentNode.nodeName : ""} <- ${node.nodeName}`);
+      if (hasParentNode(node)) {
+        depth = depth - 1;
+      }
+      return node;
+    });
+    const parsed = parse(html);
+
+    traverse(parsed, {
+      onEnterDocument: onEnter,
+      onLeaveDocument: onLeave,
+      onEnterDocumentFragment: onEnter,
+      onLeaveDocumentFragment: onLeave,
+      onEnterDocumentType: onEnter,
+      onLeaveDocumentType: onLeave,
+      onEnterElement: onEnter,
+      onLeaveElement: onLeave,
+      onEnterCommentNode: onEnter,
+      onLeaveCommentNode: onLeave,
+      onEnterTextNode: onEnter,
+      onLeaveTextNode: onLeave,
+    });
+    expect(memo).toMatchSnapshot();
   });
 });
