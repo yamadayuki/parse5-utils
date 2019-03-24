@@ -1019,19 +1019,19 @@
   resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.9.tgz#693e76a52f61a2f1e7fb48c0eef167b95ea4ffd0"
   integrity sha512-sCZy4SxP9rN2w30Hlmg5dtdRwgYQfYRiLo9usw8X9cxlf+H4FqM1xX7+sNH7NNKVdbXMJWqva7iyy+fxh/V7fA==
 
-"@yamadayuki/ogh-sample@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-sample/-/ogh-sample-0.2.0.tgz#9e5491ad6607f8012b0f043668a12930fa0467c1"
-  integrity sha512-rm79Q65wNsiwpw7A3NueE7FHDvdsw2n58So6wk4JiFTLBstFgyoS1Gp6oMUpxV89KjFvo5LsSGJhGQR7Io4PPw==
+"@yamadayuki/ogh-sample@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh-sample/-/ogh-sample-0.3.1.tgz#310812664cef82a7e633ba9fe1b898ac8a695af1"
+  integrity sha512-kTDzi/rUXADKfy5JtHIEMbzmV2FjrCVnYfse2ecv+LL1YByBtfexJJ9XnPvUc2N3tl7eMZJPT7l4Umkde2bNhg==
   dependencies:
-    "@yamadayuki/ogh" "^0.2.0"
+    "@yamadayuki/ogh" "^0.3.1"
     execa "^1.0.0"
     prettier "^1.16.4"
 
-"@yamadayuki/ogh@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh/-/ogh-0.2.0.tgz#508dd062879ac23f1c7235c2850281e2a5e3b2e4"
-  integrity sha512-J4ORv0/qARBcvL/b3vAj1CCFBa89xRGIxO+XutinfRpvvqugio0UpYBtKob04Dv8ELD2JoWJXI1CWcrDJ9zn8A==
+"@yamadayuki/ogh@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@yamadayuki/ogh/-/ogh-0.3.1.tgz#00bfd59cc13d41f41c73d66442e9bca061f04e0f"
+  integrity sha512-qiA9FlXNtQJs8MZNlYE2x0N3Px6dlvQgyFFxTHBh4xeRtuLtHCuFnbQ5g+jYQn+hIealPpaeB5LRTp5HdSegFA==
   dependencies:
     command-exists "^1.2.8"
     cosmiconfig "^5.0.7"
