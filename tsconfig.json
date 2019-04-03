@@ -1,11 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "composite": true
-  },
-  "files": [],
-  "include": [],
-  "references": [
-    { "path": "./packages/parse5-is" },
-    { "path": "./packages/parse5-visit" }
-  ]
+    "baseUrl": "./packages",
+    "paths": {
+      "@yamadayuki/*": ["./*/src"]
+    }
+  }
 }

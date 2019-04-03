@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "composite": true,
     "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -20,6 +19,7 @@
     "baseUrl": ".",
     "paths": {
       "*": ["types/*"]
-    }
+    },
+    "incremental": true
   }
 }

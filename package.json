@@ -11,7 +11,8 @@
     "test:update": "lerna run --parallel test:update",
     "test:watch": "lerna exec --parallel -- npm run test -- --watch",
     "coverage": "jest -c ./jest.config.js --collectCoverage",
-    "codecov": "codecov"
+    "codecov": "codecov",
+    "clean": "lerna clean --yes && rm -rf node/*/lib"
   },
   "keywords": [],
   "author": "",
