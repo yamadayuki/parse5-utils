@@ -27,7 +27,7 @@
     "jest": "^24.1.0",
     "parse5": "^5.1.0",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.2.2"
+    "typescript": "^4.0.2"
   },
   "dependencies": {
     "@yamadayuki/parse5-is": "^0.2.1"
