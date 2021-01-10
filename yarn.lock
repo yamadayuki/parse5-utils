@@ -1080,10 +1080,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.4.tgz#46832183115c904410c275e34cf9403992999c32"
   integrity sha512-j8YL2C0fXq7IONwl/Ud5Kt0PeXw22zGERt+HSSnwbKOJVsAGkEz3sFCYwaF9IOuoG1HOtE0vKCj6sXF7Q0+Vaw==
 
-"@types/parse5@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.0.tgz#9ae2106efc443d7c1e26570aa8247828c9c80f11"
-  integrity sha512-J5D3z703XTDIGQFYXsnU9uRCW9e9mMEFO0Kpe6kykyiboqziru/RlZ0hM2P+PKTG4NHG1SjLrqae/NrV2iJApQ==
+"@types/parse5@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-6.0.0.tgz#38590dc2c3cf5717154064e3ee9b6947ee21b299"
+  integrity sha512-oPwPSj4a1wu9rsXTEGIJz91ISU725t0BmSnUhb57sI+M8XEmvUop84lzuiYdq0Y5M6xLY8DBPg0C2xEQKLyvBA==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
